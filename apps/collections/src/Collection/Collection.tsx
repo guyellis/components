@@ -24,7 +24,13 @@
 
  */
 
-import { ButtonItem, ButtonToggle } from '@looker/components'
+import {
+  ButtonItem,
+  ButtonToggle,
+  Icon,
+  Heading,
+  SpaceVertical,
+} from '@looker/components'
 import {
   ExtensionContextData,
   ExtensionContext,
@@ -33,7 +39,7 @@ import { IDashboard } from '@looker/sdk'
 // eslint-disable-next-line camelcase
 import { all_dashboards } from '@looker/sdk/lib/4.0/funcs'
 import React, { useState, useContext, useEffect } from 'react'
-import { SupportedCollection } from '../App'
+import { SupportedCollection } from '../supportedCollections'
 import { Presenter } from './Presenter'
 import { PresentationType } from './types'
 
@@ -44,6 +50,8 @@ type CollectionProps = {
 export const Collection = ({ config }: CollectionProps) => {
   const [dashboards, setDashboards] = useState<IDashboard[]>([])
   const [presentation, setPresentation] = useState<PresentationType>('list')
+
+  const { icon, title } = config
 
   const onChangePresentation = (newPresentation: string) => {
     switch (newPresentation) {
@@ -73,13 +81,17 @@ export const Collection = ({ config }: CollectionProps) => {
   )
 
   return (
-    <>
+    <SpaceVertical>
+      <Heading fontSize="xxxxlarge">
+        {icon && <Icon color="key" icon={icon} display="inline-block" />}
+        {title}
+      </Heading>
       {presentationToggle}
       <Presenter
         presentation={presentation}
         collection={dashboards}
         {...config}
       />
-    </>
+    </SpaceVertical>
   )
 }

@@ -24,31 +24,24 @@
 
  */
 
+import { NavList, ListItem, Aside } from '@looker/components'
 import React, { FC } from 'react'
-import { SupportedCollection } from '../supportedCollections'
-import { Presenter as CardsPresenter } from './Presentations/Cards'
-import { Presenter as ListPresenter } from './Presentations/List'
-import { Presenter as TablePresenter } from './Presentations/Table'
-import { ItemProps, PresentationType } from './types'
+import { SupportedCollections } from '../supportedCollections'
 
-export type PresentationProps = SupportedCollection & {
-  collection: ItemProps[]
-}
-
-export type PresenterProps = PresentationProps & {
-  presentation: PresentationType
-}
-
-export const Presenter: FC<PresenterProps> = ({
-  collection,
-  presentation,
-  ...props
+export const Navigation: FC<{ collections: SupportedCollections }> = ({
+  collections,
 }) => {
-  if (presentation === 'cards') {
-    return <CardsPresenter collection={collection} {...props} />
-  } else if (presentation === 'list') {
-    return <ListPresenter collection={collection} {...props} />
-  } else {
-    return <TablePresenter collection={collection} {...props} />
-  }
+  const items = collections.map(({ title, icon }, i) => {
+    return (
+      <ListItem key={i} href={title.toLowerCase()} icon={icon}>
+        {title}
+      </ListItem>
+    )
+  })
+
+  return (
+    <Aside py="medium" width="navigation">
+      <NavList>{items}</NavList>
+    </Aside>
+  )
 }

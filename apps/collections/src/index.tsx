@@ -36,7 +36,9 @@ const getRoot = () => {
   const root = document.createElement('div')
   root.setAttribute('id', 'extension-root')
   root.style.height = '100%'
+
   document.body.appendChild(root)
+  document.body.style.margin = '0'
   return root
 }
 

@@ -23,32 +23,30 @@
  SOFTWARE.
 
  */
+import { IconType } from '@looker/components/src'
+import { Dashboard } from '@styled-icons/material-rounded/Dashboard'
+import { Folder } from '@styled-icons/material-rounded/Folder'
+import { QueryStats } from '@styled-icons/material-rounded/QueryStats'
+import React from 'react'
 
-import React, { FC } from 'react'
-import { SupportedCollection } from '../supportedCollections'
-import { Presenter as CardsPresenter } from './Presentations/Cards'
-import { Presenter as ListPresenter } from './Presentations/List'
-import { Presenter as TablePresenter } from './Presentations/Table'
-import { ItemProps, PresentationType } from './types'
-
-export type PresentationProps = SupportedCollection & {
-  collection: ItemProps[]
+export type SupportedCollection = {
+  title: string
+  href?: (id: string) => string
+  icon?: IconType
 }
 
-export type PresenterProps = PresentationProps & {
-  presentation: PresentationType
-}
-
-export const Presenter: FC<PresenterProps> = ({
-  collection,
-  presentation,
-  ...props
-}) => {
-  if (presentation === 'cards') {
-    return <CardsPresenter collection={collection} {...props} />
-  } else if (presentation === 'list') {
-    return <ListPresenter collection={collection} {...props} />
-  } else {
-    return <TablePresenter collection={collection} {...props} />
-  }
-}
+export const supportedCollections: SupportedCollection[] = [
+  {
+    href: (id: string) => `dashboards-next/${id}`,
+    icon: <Dashboard />,
+    title: 'Dashboards',
+  },
+  {
+    icon: <QueryStats />,
+    title: 'Looks',
+  },
+  {
+    icon: <Folder />,
+    title: 'Boards',
+  },
+]

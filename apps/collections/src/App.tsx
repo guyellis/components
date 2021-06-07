@@ -24,25 +24,18 @@
 
  */
 
+import { Page, Section } from '@looker/components'
 import React from 'react'
 import { Collection } from './Collection/Collection'
+import { Navigation } from './Navigation/Navigation'
 
-export type SupportedCollection = {
-  title: string
-  href?: (id: string) => string
-}
+import { supportedCollections } from './supportedCollections'
 
-export const collectionTypes: SupportedCollection[] = [
-  {
-    href: (id: string) => `dashboards-next/${id}`,
-    title: 'Dashboards',
-  },
-  {
-    title: 'Looks',
-  },
-  {
-    title: 'Boards',
-  },
-]
-
-export const App = () => <Collection config={collectionTypes[0]} />
+export const App = () => (
+  <Page hasAside>
+    <Navigation collections={supportedCollections} />
+    <Section main py="medium">
+      <Collection config={supportedCollections[0]} />
+    </Section>
+  </Page>
+)

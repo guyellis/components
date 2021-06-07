@@ -15,6 +15,7 @@
   "dependencies": {
     "@looker/components": "^1.4.0",
     "@looker/extension-sdk-react": "21.6.0",
+    "@styled-icons/material-rounded": "10.34.0",
     "@looker/sdk": "21.6.0",
     "react-router-dom": "5.2.0",
     "core-js": "^3.12.1",
