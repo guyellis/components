@@ -25,16 +25,29 @@
  */
 
 import React, { FC } from 'react'
-import { PresenterProps } from './types'
+import { SupportedCollection } from '../App'
 
-import { Presenter as CardsPresenter } from './Cards'
-import { Presenter as ListPresenter } from './List'
+import { Presenter as CardsPresenter } from './Presentations/Cards'
+import { Presenter as ListPresenter } from './Presentations/List'
+import { ItemProps, PresentationType } from './types'
 
-export const Presenter: FC<PresenterProps> = ({ collection, presentation }) => {
+export type PresentationProps = SupportedCollection & {
+  collection: ItemProps[]
+}
+
+export type PresenterProps = PresentationProps & {
+  presentation: PresentationType
+}
+
+export const Presenter: FC<PresenterProps> = ({
+  collection,
+  presentation,
+  ...props
+}) => {
   if (presentation === 'cards') {
-    return <CardsPresenter collection={collection} />
+    return <CardsPresenter collection={collection} {...props} />
   } else if (presentation === 'list') {
-    return <ListPresenter collection={collection} />
+    return <ListPresenter collection={collection} {...props} />
   } else {
     return <p>Hold your horses buddy. We're workin' on it.</p>
   }

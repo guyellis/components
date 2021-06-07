@@ -27,4 +27,22 @@
 import React from 'react'
 import { Collection } from './Collection/Collection'
 
-export const App = () => <Collection />
+export type SupportedCollection = {
+  title: string
+  href?: (id: string) => string
+}
+
+export const collectionTypes: SupportedCollection[] = [
+  {
+    href: (id: string) => `dashboards-next/${id}`,
+    title: 'Dashboards',
+  },
+  {
+    title: 'Looks',
+  },
+  {
+    title: 'Boards',
+  },
+]
+
+export const App = () => <Collection config={collectionTypes[0]} />

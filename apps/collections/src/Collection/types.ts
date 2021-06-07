@@ -30,12 +30,5 @@ export type PresentationType = typeof presentationTypes[number]
 export type ItemProps = {
   title?: string
   id?: string
-}
-
-export type CollectionProps = {
-  collection: ItemProps[]
-}
-
-export type PresenterProps = CollectionProps & {
-  presentation: PresentationType
+  href?: (id: string) => string
 }

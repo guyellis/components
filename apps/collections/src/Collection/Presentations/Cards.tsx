@@ -24,16 +24,21 @@
 
  */
 
-import { List, ListItem } from '@looker/components'
+import { Card, CardContent, Grid } from '@looker/components'
 import React, { FC } from 'react'
-import { ItemProps, CollectionProps } from './types'
+import { PresentationProps } from '../Presenter'
+import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ title }) => <ListItem>{title}</ListItem>
+const Item: FC<ItemProps> = ({ title }) => (
+  <Card>
+    <CardContent>{title}</CardContent>
+  </Card>
+)
 
-export const Presenter: FC<CollectionProps> = ({ collection }) => (
-  <List>
+export const Presenter: FC<PresentationProps> = ({ collection }) => (
+  <Grid columns={4}>
     {collection.map((item, i) => (
       <Item key={i} {...item} />
     ))}
-  </List>
+  </Grid>
 )

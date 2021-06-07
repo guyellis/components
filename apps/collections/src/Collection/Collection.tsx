@@ -33,10 +33,15 @@ import { IDashboard } from '@looker/sdk'
 // eslint-disable-next-line camelcase
 import { all_dashboards } from '@looker/sdk/lib/4.0/funcs'
 import React, { useState, useContext, useEffect } from 'react'
+import { SupportedCollection } from '../App'
 import { Presenter } from './Presenter'
 import { PresentationType } from './types'
 
-export const Collection = () => {
+type CollectionProps = {
+  config: SupportedCollection
+}
+
+export const Collection = ({ config }: CollectionProps) => {
   const [dashboards, setDashboards] = useState<IDashboard[]>([])
   const [presentation, setPresentation] = useState<PresentationType>('list')
 
@@ -70,7 +75,11 @@ export const Collection = () => {
   return (
     <>
       {presentationToggle}
-      <Presenter presentation={presentation} collection={dashboards} />
+      <Presenter
+        presentation={presentation}
+        collection={dashboards}
+        {...config}
+      />
     </>
   )
 }
