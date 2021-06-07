@@ -24,32 +24,44 @@
 
  */
 
+import {
+  DataTable,
+  DataTableCell,
+  DataTableColumns,
+  DataTableItem,
+} from '@looker/components'
 import React, { FC } from 'react'
-import { SupportedCollection } from '../App'
+import { PresentationProps } from '../Presenter'
+import { ItemProps } from '../types'
 
-import { Presenter as CardsPresenter } from './Presentations/Cards'
-import { Presenter as ListPresenter } from './Presentations/List'
-import { Presenter as TablePresenter } from './Presentations/Table'
-import { ItemProps, PresentationType } from './types'
+const Item: FC<ItemProps> = ({ id, title }) => (
+  <DataTableItem key={id} id={id || 'no_id'}>
+    <DataTableCell>{id}</DataTableCell>
+    <DataTableCell>{title}</DataTableCell>
+  </DataTableItem>
+)
 
-export type PresentationProps = SupportedCollection & {
-  collection: ItemProps[]
-}
+export const Presenter: FC<PresentationProps> = ({ collection }) => {
+  const columns: DataTableColumns = [
+    {
+      id: 'id',
+      size: 50,
+      title: 'ID',
+      type: 'string',
+    },
+    {
+      id: 'title',
+      size: 50,
+      title: 'Title',
+      type: 'string',
+    },
+  ]
 
-export type PresenterProps = PresentationProps & {
-  presentation: PresentationType
-}
-
-export const Presenter: FC<PresenterProps> = ({
-  collection,
-  presentation,
-  ...props
-}) => {
-  if (presentation === 'cards') {
-    return <CardsPresenter collection={collection} {...props} />
-  } else if (presentation === 'list') {
-    return <ListPresenter collection={collection} {...props} />
-  } else {
-    return <TablePresenter collection={collection} {...props} />
-  }
+  return (
+    <DataTable caption="It's a table" columns={columns}>
+      {collection.map((itemProps) => (
+        <Item key={itemProps.id} {...itemProps} />
+      ))}
+    </DataTable>
+  )
 }

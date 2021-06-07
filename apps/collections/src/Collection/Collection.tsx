@@ -68,7 +68,7 @@ export const Collection = ({ config }: CollectionProps) => {
     <ButtonToggle value={presentation} onChange={onChangePresentation}>
       <ButtonItem value="cards">Cards</ButtonItem>
       <ButtonItem value="list">List</ButtonItem>
-      <ButtonItem value="grid">Table</ButtonItem>
+      <ButtonItem value="table">Table</ButtonItem>
     </ButtonToggle>
   )
 
