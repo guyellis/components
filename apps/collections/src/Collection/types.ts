@@ -23,39 +23,19 @@
  SOFTWARE.
 
  */
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { ComponentsProvider } from '@looker/components'
-import { ExtensionProvider } from '@looker/extension-sdk-react'
-import { App } from './App'
-import { Loading } from './Loading'
 
-const getRoot = () => {
-  const existingRoot = document.getElementById('extension-root')
-  if (existingRoot) return existingRoot
-  const root = document.createElement('div')
-  root.setAttribute('id', 'extension-root')
-  root.style.height = '100%'
-  document.body.appendChild(root)
-  return root
+export const presentationTypes = ['list', 'cards', 'table'] as const
+export type PresentationType = typeof presentationTypes[number]
+
+export type ItemProps = {
+  title?: string
+  id?: string
 }
 
-const render = () => {
-  const root = getRoot()
-
-  ReactDOM.render(
-    <ComponentsProvider>
-      <ExtensionProvider
-        loadingComponent={<Loading />}
-        requiredLookerVersion=">=21.0"
-      >
-        <App />
-      </ExtensionProvider>
-    </ComponentsProvider>,
-    root
-  )
+export type CollectionProps = {
+  collection: ItemProps[]
 }
 
-window.addEventListener('DOMContentLoaded', async () => {
-  render()
-})
+export type PresenterProps = CollectionProps & {
+  presentation: PresentationType
+}

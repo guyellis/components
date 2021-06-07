@@ -23,39 +23,12 @@
  SOFTWARE.
 
  */
+
+import { Flex, Spinner } from '@looker/components'
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { ComponentsProvider } from '@looker/components'
-import { ExtensionProvider } from '@looker/extension-sdk-react'
-import { App } from './App'
-import { Loading } from './Loading'
 
-const getRoot = () => {
-  const existingRoot = document.getElementById('extension-root')
-  if (existingRoot) return existingRoot
-  const root = document.createElement('div')
-  root.setAttribute('id', 'extension-root')
-  root.style.height = '100%'
-  document.body.appendChild(root)
-  return root
-}
-
-const render = () => {
-  const root = getRoot()
-
-  ReactDOM.render(
-    <ComponentsProvider>
-      <ExtensionProvider
-        loadingComponent={<Loading />}
-        requiredLookerVersion=">=21.0"
-      >
-        <App />
-      </ExtensionProvider>
-    </ComponentsProvider>,
-    root
-  )
-}
-
-window.addEventListener('DOMContentLoaded', async () => {
-  render()
-})
+export const Loading = () => (
+  <Flex width="100%" height="90%" alignItems="center" justifyContent="center">
+    <Spinner />
+  </Flex>
+)

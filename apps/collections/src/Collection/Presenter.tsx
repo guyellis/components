@@ -23,39 +23,19 @@
  SOFTWARE.
 
  */
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { ComponentsProvider } from '@looker/components'
-import { ExtensionProvider } from '@looker/extension-sdk-react'
-import { App } from './App'
-import { Loading } from './Loading'
 
-const getRoot = () => {
-  const existingRoot = document.getElementById('extension-root')
-  if (existingRoot) return existingRoot
-  const root = document.createElement('div')
-  root.setAttribute('id', 'extension-root')
-  root.style.height = '100%'
-  document.body.appendChild(root)
-  return root
+import React, { FC } from 'react'
+import { PresenterProps } from './types'
+
+import { Presenter as CardsPresenter } from './Cards'
+import { Presenter as ListPresenter } from './List'
+
+export const Presenter: FC<PresenterProps> = ({ collection, presentation }) => {
+  if (presentation === 'cards') {
+    return <CardsPresenter collection={collection} />
+  } else if (presentation === 'list') {
+    return <ListPresenter collection={collection} />
+  } else {
+    return <p>Hold your horses buddy. We're workin' on it.</p>
+  }
 }
-
-const render = () => {
-  const root = getRoot()
-
-  ReactDOM.render(
-    <ComponentsProvider>
-      <ExtensionProvider
-        loadingComponent={<Loading />}
-        requiredLookerVersion=">=21.0"
-      >
-        <App />
-      </ExtensionProvider>
-    </ComponentsProvider>,
-    root
-  )
-}
-
-window.addEventListener('DOMContentLoaded', async () => {
-  render()
-})

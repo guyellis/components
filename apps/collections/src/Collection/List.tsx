@@ -23,39 +23,17 @@
  SOFTWARE.
 
  */
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { ComponentsProvider } from '@looker/components'
-import { ExtensionProvider } from '@looker/extension-sdk-react'
-import { App } from './App'
-import { Loading } from './Loading'
 
-const getRoot = () => {
-  const existingRoot = document.getElementById('extension-root')
-  if (existingRoot) return existingRoot
-  const root = document.createElement('div')
-  root.setAttribute('id', 'extension-root')
-  root.style.height = '100%'
-  document.body.appendChild(root)
-  return root
-}
+import { List, ListItem } from '@looker/components'
+import React, { FC } from 'react'
+import { ItemProps, CollectionProps } from './types'
 
-const render = () => {
-  const root = getRoot()
+const Item: FC<ItemProps> = ({ title }) => <ListItem>{title}</ListItem>
 
-  ReactDOM.render(
-    <ComponentsProvider>
-      <ExtensionProvider
-        loadingComponent={<Loading />}
-        requiredLookerVersion=">=21.0"
-      >
-        <App />
-      </ExtensionProvider>
-    </ComponentsProvider>,
-    root
-  )
-}
-
-window.addEventListener('DOMContentLoaded', async () => {
-  render()
-})
+export const Presenter: FC<CollectionProps> = ({ collection }) => (
+  <List>
+    {collection.map((item, i) => (
+      <Item key={i} {...item} />
+    ))}
+  </List>
+)
