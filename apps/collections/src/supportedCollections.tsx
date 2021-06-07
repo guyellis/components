@@ -35,6 +35,8 @@ export type SupportedCollection = {
   icon?: IconType
 }
 
+export type SupportedCollections = SupportedCollection[]
+
 export const supportedCollections: SupportedCollection[] = [
   {
     href: (id: string) => `dashboards-next/${id}`,
