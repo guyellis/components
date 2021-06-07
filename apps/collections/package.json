@@ -1,0 +1,39 @@
+{
+  "name": "hackweek",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Looker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/looker-open-source/components",
+    "directory": "packages/components"
+  },
+  "private": true,
+  "scripts": {
+    "develop": "webpack serve --disable-host-check --host=localhost --config webpack.config.js"
+  },
+  "dependencies": {
+    "@looker/components": "^1.4.0",
+    "@looker/extension-sdk-react": "21.6.0",
+    "@looker/sdk": "21.6.0",
+    "react-router-dom": "5.2.0",
+    "core-js": "^3.12.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-is": "^16.13.1",
+    "styled-components": "^5.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.0",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.14.2",
+    "@babel/plugin-transform-runtime": "^7.14.2",
+    "@babel/preset-env": "^7.14.2",
+    "babel-loader": "^8.2.2",
+    "babel-loader-exclude-node-modules-except": "^1.1.2",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
+    "webpack": "*",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "*"
+  }
+}

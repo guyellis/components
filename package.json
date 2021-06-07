@@ -4,6 +4,7 @@
   "author": "Looker",
   "private": true,
   "workspaces": [
+    "apps/*",
     "packages/*",
     "playground",
     "storybook",
