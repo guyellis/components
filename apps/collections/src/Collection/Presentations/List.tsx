@@ -40,7 +40,7 @@ const Item: FC<ItemProps> = ({ href, id, title }) => {
   }
 
   return (
-    <ListItem id={id} onClick={handleClick}>
+    <ListItem id={String(id)} onClick={handleClick}>
       {title}
     </ListItem>
   )
@@ -48,7 +48,7 @@ const Item: FC<ItemProps> = ({ href, id, title }) => {
 
 export const Presenter: FC<PresentationProps> = ({ items, href }) => {
   return (
-    <List>
+    <List color="key">
       {items.map((item, i) => (
         <Item key={i} {...item} href={href} />
       ))}

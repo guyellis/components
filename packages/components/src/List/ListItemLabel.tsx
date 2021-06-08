@@ -25,8 +25,10 @@
  */
 
 import { CompatibleHTMLProps, shouldForwardProp } from '@looker/design-tokens'
+import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
 import React, { FC } from 'react'
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
+import { Checkbox } from '..'
 import { FocusVisibleProps } from '../utils'
 import { FlexibleColor, ListItemRole, ListItemStatefulProps } from './types'
 import { listItemBackgroundColor } from './utils'
@@ -53,7 +55,9 @@ const listItemLabelElement = (itemRole: ListItemRole, disabled?: boolean) => {
 const ListItemLabelLayout: FC<ListItemLabelProps> = ({
   children,
   disabled,
+  id,
   itemRole = 'button',
+  select,
   ...props
 }) => {
   const Component = listItemLabelElement(
@@ -61,12 +65,25 @@ const ListItemLabelLayout: FC<ListItemLabelProps> = ({
     disabled
   ) as FC<ListItemLabelProps>
 
+  const isChecked = !!id && select?.selectedItems.includes(id)
+
   return (
     <Component
       disabled={disabled}
       type={itemRole === 'button' || disabled ? 'button' : undefined}
       {...props}
     >
+      {select && (
+        <Checkbox
+          checked={isChecked}
+          onChange={(event) => {
+            // Prevent checkbox clicks from triggering row clicks
+            event.stopPropagation()
+            return id && select.onSelect(id)
+          }}
+          mr="large"
+        />
+      )}
       {children}
     </Component>
   )
@@ -79,11 +96,14 @@ type ListItemLabelProps = CompatibleHTMLProps<HTMLElement> &
     cursorPointer?: boolean
     disabled?: boolean
     height?: number
+    id?: string
     itemRole?: ListItemRole
+    select?: SelectConfig
   }
 
 export const ListItemLabel = styled(ListItemLabelLayout).withConfig({
-  shouldForwardProp: (prop) => prop === 'itemRole' || shouldForwardProp(prop),
+  shouldForwardProp: (prop) =>
+    ['itemRole', 'select'].includes(prop) || shouldForwardProp(prop),
 })`
   ${({ height, itemRole }) => itemRole === 'none' && `min-height: ${height}px;`}
   ${listItemBackgroundColor}

@@ -36,6 +36,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
+import { CollectionContext } from 'apps/collections/src/Collection/CollectionContext'
 import { ListItemDetail } from '../List/ListItemDetail'
 import { Text } from '../Text'
 import { IconPlaceholder } from '../Icon'
@@ -197,11 +198,17 @@ const ListItemInternal = forwardRef(
       </HoverDisclosure>
     )
 
+    const { select } = useContext(CollectionContext)
+
+    const renderedSelected =
+      selected ||
+      (!!restProps.id && select?.selectedItems.includes(restProps.id))
+
     const statefulProps = {
       color,
       disabled,
       hovered,
-      selected,
+      selected: renderedSelected,
     }
 
     const [ariaProps, wrapperProps] = partitionAriaProps(restProps)
@@ -218,10 +225,12 @@ const ListItemInternal = forwardRef(
         focusVisible={focusVisible}
         height={itemDimensions.height}
         href={href}
+        id={restProps.id}
         onClick={disabled ? undefined : handleOnClick}
         onKeyDown={onKeyDown}
         rel={createSafeRel(rel, target)}
         role={role || 'listitem'}
+        select={select}
         target={target}
         tabIndex={tabIndex}
         {...ariaProps}
