@@ -24,6 +24,7 @@
 
  */
 
+import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
 import { createContext } from 'react'
 import { DensityRamp, ListColor } from './types'
 
@@ -31,6 +32,7 @@ export interface ListItemContextProps {
   density: DensityRamp
   iconGutter: boolean
   color?: ListColor
+  select?: SelectConfig
 }
 
 const listItemContext: ListItemContextProps = {

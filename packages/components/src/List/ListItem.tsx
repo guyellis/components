@@ -36,7 +36,6 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { CollectionContext } from 'apps/collections/src/Collection/CollectionContext'
 import { ListItemDetail } from '../List/ListItemDetail'
 import { Text } from '../Text'
 import { IconPlaceholder } from '../Icon'
@@ -111,6 +110,7 @@ const ListItemInternal = forwardRef(
       density: contextDensity,
       iconGutter,
       color: contextColor,
+      select,
     } = useContext(ListItemContext)
     const truncateDescription =
       typeof truncate === 'object' ? truncate.description : undefined
@@ -197,8 +197,6 @@ const ListItemInternal = forwardRef(
         </ListItemDetail>
       </HoverDisclosure>
     )
-
-    const { select } = useContext(CollectionContext)
 
     const renderedSelected =
       selected ||

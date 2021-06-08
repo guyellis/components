@@ -27,6 +27,7 @@
 import { List, ListItem } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, useContext } from 'react'
+import { CollectionContext } from '../CollectionContext'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
@@ -47,8 +48,10 @@ const Item: FC<ItemProps> = ({ href, id, title }) => {
 }
 
 export const Presenter: FC<PresentationProps> = ({ items, href }) => {
+  const { select } = useContext(CollectionContext)
+
   return (
-    <List color="key">
+    <List color="key" select={select}>
       {items.map((item, i) => (
         <Item key={i} {...item} href={href} />
       ))}

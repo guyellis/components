@@ -42,6 +42,7 @@ import {
 } from '@looker/design-tokens'
 import { HeightProps, fontFamily } from 'styled-system'
 import styled from 'styled-components'
+import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
 import { useArrowKeyNav, useWindow } from '../utils'
 import { ListItemContext } from './ListItemContext'
 import { DensityRamp, ListColorProps } from './types'
@@ -77,6 +78,8 @@ export type ListProps = ListColorProps &
      */
     fontFamily?: FontFamilies
 
+    select?: SelectConfig
+
     /**
      * Use windowing for long lists (strongly recommended to also define a width on List or its container)
      * 'none' - default with children are <= 100.
@@ -106,6 +109,7 @@ export const ListInternal = forwardRef(
       onFocus,
       onKeyDown,
       role,
+      select,
       windowing,
       ...props
     }: ListProps,
@@ -152,6 +156,7 @@ export const ListInternal = forwardRef(
       color,
       density,
       iconGutter,
+      select,
     }
 
     return (
