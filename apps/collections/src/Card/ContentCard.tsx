@@ -24,7 +24,13 @@
 
  */
 
-import { CardContent, CardProps, Heading, Paragraph } from '@looker/components'
+import {
+  CardContent,
+  CardProps,
+  Heading,
+  Paragraph,
+  Truncate,
+} from '@looker/components'
 import React, { FC, ReactNode } from 'react'
 import { Link } from '../Link'
 import { CardItem } from './CardItem'
@@ -74,14 +80,16 @@ const CardLabel = ({
   children?: ReactNode
   href?: string
 }) => (
-  <Heading as="h2" fontSize="medium" fontWeight="semiBold" truncate>
-    {href ? (
-      <Link visible target="blank" to={href}>
-        {children}
-      </Link>
-    ) : (
-      children
-    )}
+  <Heading as="h2" fontSize="medium" fontWeight="semiBold">
+    <Truncate>
+      {href ? (
+        <Link visible target="blank" to={href}>
+          {children}
+        </Link>
+      ) : (
+        children
+      )}
+    </Truncate>
   </Heading>
 )
 
