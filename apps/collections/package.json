@@ -16,7 +16,7 @@
     "@looker/components": "^1.4.0",
     "@looker/extension-sdk-react": "21.6.0",
     "@looker/sdk": "21.6.0",
-    "@styled-icons/material-rounded": "10.34.0",
+    "@styled-icons/material-outlined": "^10.34.0",
     "core-js": "^3.12.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

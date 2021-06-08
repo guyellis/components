@@ -24,7 +24,7 @@
 
  */
 
-import { Page, Section, Paragraph } from '@looker/components'
+import { Aside, Page, Paragraph, Section } from '@looker/components'
 import React, { useEffect, useState } from 'react'
 import { getCoreSDK2 } from '@looker/extension-sdk-react'
 // eslint-disable-next-line camelcase
@@ -32,19 +32,20 @@ import { Route, useParams } from 'react-router-dom'
 import { Looker40SDK } from '@looker/sdk'
 import { Navigation } from './Navigation/Navigation'
 import { Collection } from './Collection/Collection'
-
 import { supportedCollections } from './supportedCollections'
 import { ItemProps } from './Collection/types'
 
 export const App = () => {
   return (
-    <Page hasAside>
-      <Navigation collections={supportedCollections} />
-      <Section main py="medium">
+    <Page hasAside fixed>
+      <Aside py="medium" width="navigation">
+        <Navigation collections={supportedCollections} />
+      </Aside>
+      <Section main py="medium" px="xlarge">
         <Route exact path="/">
           <Paragraph>Choose a collection...</Paragraph>
         </Route>
-        <Route path="/:collection">
+        <Route path="/:collection/:presentation?">
           <CollectionRouter />
         </Route>
       </Section>

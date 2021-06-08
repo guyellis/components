@@ -48,7 +48,12 @@ const render = () => {
   const root = getRoot()
 
   ReactDOM.render(
-    <ComponentsProvider>
+    <ComponentsProvider
+      themeCustomizations={{
+        colors: { key: '#1A73E8' },
+        fontFamilies: { brand: 'Google Sans' },
+      }}
+    >
       <ExtensionProvider2 type={Looker40SDK} loadingComponent={<Loading />}>
         <App />
       </ExtensionProvider2>

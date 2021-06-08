@@ -24,27 +24,41 @@
 
  */
 
-import { NavList } from '@looker/components'
-import { Home } from '@styled-icons/material-outlined/Home'
+import { ListItem, ListItemProps } from '@looker/components'
 import React, { FC } from 'react'
-import { SupportedCollections } from '../supportedCollections'
-import { NavigationItem } from './NavigationItem'
+import { NavLink, NavLinkProps } from 'react-router-dom'
+import useNavigate from './useNavigate'
 
-export const Navigation: FC<{ collections: SupportedCollections }> = ({
-  collections,
+const ACTIVE_CLASS_NAME = 'active'
+
+const Navigable: FC<ListItemProps & { navigate(): void }> = ({
+  navigate,
+  onClick: propsOnClick,
+  ...props
 }) => {
-  const items = collections.map(({ title, icon }, i) => (
-    <NavigationItem key={i} to={`/${title.toLowerCase()}`} icon={icon}>
-      {title}
-    </NavigationItem>
-  ))
+  const onClick = useNavigate(navigate, {
+    onClick: propsOnClick,
+    target: props.target,
+  })
 
   return (
-    <NavList>
-      <NavigationItem exact to="/" icon={<Home />}>
-        Home
-      </NavigationItem>
-      {items}
-    </NavList>
+    <ListItem
+      itemRole="link"
+      selected={props.className?.split(' ').includes(ACTIVE_CLASS_NAME)}
+      truncate
+      onClick={onClick}
+      {...props}
+    />
   )
 }
+
+type NavigationItemProps = ListItemProps & NavLinkProps
+
+export const NavigationItem: FC<NavigationItemProps> = ({ to, ...props }) => (
+  <NavLink
+    activeClassName={ACTIVE_CLASS_NAME}
+    to={to}
+    component={Navigable}
+    {...props}
+  />
+)

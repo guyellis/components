@@ -24,9 +24,9 @@
 
  */
 import { IconType } from '@looker/components/src'
-import { Dashboard } from '@styled-icons/material-rounded/Dashboard'
-import { Folder } from '@styled-icons/material-rounded/Folder'
-import { QueryStats } from '@styled-icons/material-rounded/QueryStats'
+import { Dashboard } from '@styled-icons/material-outlined/Dashboard'
+import { Poll } from '@styled-icons/material-outlined/Poll'
+import { Bookmarks } from '@styled-icons/material-outlined/Bookmarks'
 import React from 'react'
 import { IError, Looker40SDK } from '@looker/sdk'
 
@@ -34,7 +34,7 @@ import { IError, Looker40SDK } from '@looker/sdk'
 import {
   all_dashboards,
   all_looks,
-  all_boards,
+  search_boards,
 } from '@looker/sdk/lib/4.0/funcs'
 /* eslint-enable camelcase */
 import type { SDKResponse } from '@looker/sdk-rtl'
@@ -51,6 +51,11 @@ export type SupportedCollections = SupportedCollection[]
 
 export const supportedCollections: SupportedCollection[] = [
   {
+    endpoint: search_boards,
+    icon: <Bookmarks />,
+    title: 'Boards',
+  },
+  {
     endpoint: all_dashboards,
     href: (id: string | number) => `/dashboards-next/${id}`,
     icon: <Dashboard />,
@@ -58,12 +63,7 @@ export const supportedCollections: SupportedCollection[] = [
   },
   {
     endpoint: all_looks,
-    icon: <QueryStats />,
+    icon: <Poll />,
     title: 'Looks',
-  },
-  {
-    endpoint: all_boards,
-    icon: <Folder />,
-    title: 'Boards',
   },
 ]

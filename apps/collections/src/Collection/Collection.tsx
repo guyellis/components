@@ -29,9 +29,11 @@ import {
   ButtonToggle,
   Icon,
   Heading,
+  Space,
   SpaceVertical,
 } from '@looker/components'
-import React, { useState } from 'react'
+import React from 'react'
+import { Route, useParams, useHistory } from 'react-router-dom'
 import { SupportedCollection } from '../supportedCollections'
 import { PresentationProps, Presenter } from './Presenter'
 import { PresentationType } from './types'
@@ -39,14 +41,16 @@ import { PresentationType } from './types'
 type CollectionProps = SupportedCollection & PresentationProps
 
 export const Collection = ({ icon, title, href, items }: CollectionProps) => {
-  const [presentation, setPresentation] = useState<PresentationType>('list')
+  const history = useHistory()
+  const { collection, presentation = 'list' } =
+    useParams<{ collection: string; presentation?: PresentationType }>()
 
   const onChangePresentation = (newPresentation: string) => {
     switch (newPresentation) {
       case 'cards':
       case 'list':
       case 'table':
-        setPresentation(newPresentation)
+        history.push(`/${collection}/${newPresentation}`)
     }
   }
 
@@ -60,11 +64,15 @@ export const Collection = ({ icon, title, href, items }: CollectionProps) => {
 
   return (
     <SpaceVertical>
-      <Heading fontSize="xxxxlarge">
-        {icon && <Icon color="key" icon={icon} display="inline-block" />}
-        {title}
-      </Heading>
-      {presentationToggle}
+      <Space between>
+        <Space gap="xsmall" width="auto">
+          {icon && (
+            <Icon color="key" icon={icon} display="inline-block" size="large" />
+          )}
+          <Heading fontSize="xxxxlarge">{title}</Heading>
+        </Space>
+        <div>{presentationToggle}</div>
+      </Space>
       <Presenter href={href} presentation={presentation} items={items} />
     </SpaceVertical>
   )
