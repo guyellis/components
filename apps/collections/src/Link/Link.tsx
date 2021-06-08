@@ -24,45 +24,10 @@
 
  */
 
-import React from 'react'
-import {
-  Card,
-  CardContent,
-  Grid,
-  Heading,
-  Icon,
-  Space,
-} from '@looker/components'
-import { Home } from '@styled-icons/material-outlined/Home'
-import { SupportedCollections } from '../supportedCollections'
-import { Link } from '../Link'
-import { CardBanner } from './CardBanner'
+import { Link as RouterLink } from 'react-router-dom'
+import styled from 'styled-components'
 
-type HomeProps = {
-  collections: SupportedCollections
-}
-
-export const HomePage = ({ collections }: HomeProps) => {
-  const cards = collections.map(({ icon, title }, i) => (
-    <Link to={`/${title.toLowerCase()}`} key={i}>
-      <Card raised>
-        {icon && <CardBanner>{icon}</CardBanner>}
-        <CardContent>
-          <Heading>{title}</Heading>
-        </CardContent>
-      </Card>
-    </Link>
-  ))
-
-  return (
-    <>
-      <Space gap="xsmall" width="auto">
-        <Icon color="key" icon={<Home />} display="inline-block" size="large" />
-        <Heading fontSize="xxxxlarge">Welcome</Heading>
-      </Space>
-      <Grid gap="xxlarge" py="large" columns={3}>
-        {cards}
-      </Grid>
-    </>
-  )
-}
+export const Link = styled(RouterLink)`
+  color: inherit;
+  text-decoration: none;
+`

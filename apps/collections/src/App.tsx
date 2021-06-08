@@ -48,7 +48,7 @@ export const App = () => {
       <Aside py="medium" width="navigation">
         <Navigation collections={supportedCollections} />
       </Aside>
-      <Section main py="medium" px="xlarge">
+      <Section main py="medium" px="xxlarge">
         <Route exact path="/">
           <HomePage collections={supportedCollections} />
         </Route>
