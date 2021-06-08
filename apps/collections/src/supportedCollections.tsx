@@ -53,6 +53,7 @@ export const supportedCollections: SupportedCollection[] = [
   {
     // Ideally, this would just be the all_boards endpoint but that's bugged atm
     endpoint: (sdk: Looker40SDK) => search_boards(sdk, { title: '%' }),
+    href: (id: string | number) => `/boards/${id}`,
     icon: <Bookmarks />,
     title: 'Boards',
   },
@@ -64,6 +65,7 @@ export const supportedCollections: SupportedCollection[] = [
   },
   {
     endpoint: all_looks,
+    href: (id: string | number) => `/looks/${id}`,
     icon: <Poll />,
     title: 'Looks',
   },
