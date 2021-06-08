@@ -51,7 +51,8 @@ export type SupportedCollections = SupportedCollection[]
 
 export const supportedCollections: SupportedCollection[] = [
   {
-    endpoint: search_boards,
+    // Ideally, this would just be the all_boards endpoint but that's bugged atm
+    endpoint: (sdk: Looker40SDK) => search_boards(sdk, { title: '%' }),
     icon: <Bookmarks />,
     title: 'Boards',
   },
