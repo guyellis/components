@@ -24,7 +24,13 @@
 
  */
 
-import { Aside, Page, Paragraph, Section } from '@looker/components'
+import {
+  Aside,
+  Page,
+  Paragraph,
+  Section,
+  useSelectManager,
+} from '@looker/components'
 import React, { useEffect, useState } from 'react'
 import { getCoreSDK2 } from '@looker/extension-sdk-react'
 // eslint-disable-next-line camelcase
@@ -67,6 +73,9 @@ const CollectionRouter = () => {
 
   const endpoint = supportedCollection && supportedCollection.endpoint
 
+  const itemIds = items.map(({ id }) => String(id))
+  const { onSelect, selections } = useSelectManager(itemIds)
+
   useEffect(() => {
     setItems([])
 
@@ -81,8 +90,13 @@ const CollectionRouter = () => {
     }
   }, [sdk, endpoint])
 
+  const selectConfig = {
+    onSelect,
+    selectedItems: selections,
+  }
+
   return supportedCollection && supportedCollection.endpoint ? (
-    <Collection {...supportedCollection} items={items} />
+    <Collection {...supportedCollection} items={items} select={selectConfig} />
   ) : (
     <Paragraph color="critical">Collection type not yet implemented</Paragraph>
   )
