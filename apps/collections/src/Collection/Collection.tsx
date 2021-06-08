@@ -33,7 +33,7 @@ import {
   SpaceVertical,
 } from '@looker/components'
 import React from 'react'
-import { Route, useParams, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { SupportedCollection } from '../supportedCollections'
 import { PresentationProps, Presenter } from './Presenter'
 import { PresentationType } from './types'

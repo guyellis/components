@@ -34,6 +34,7 @@ import { Navigation } from './Navigation/Navigation'
 import { Collection } from './Collection/Collection'
 import { supportedCollections } from './supportedCollections'
 import { ItemProps } from './Collection/types'
+import { HomePage } from './HomePage'
 
 export const App = () => {
   return (
@@ -43,7 +44,7 @@ export const App = () => {
       </Aside>
       <Section main py="medium" px="xlarge">
         <Route exact path="/">
-          <Paragraph>Choose a collection...</Paragraph>
+          <HomePage collections={supportedCollections} />
         </Route>
         <Route path="/:collection/:presentation?">
           <CollectionRouter />
