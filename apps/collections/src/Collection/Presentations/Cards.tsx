@@ -24,9 +24,9 @@
 
  */
 
-import { Grid, Heading, Paragraph } from '@looker/components'
-import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, useContext } from 'react'
+import { ButtonOutline, Grid, Heading, Paragraph } from '@looker/components'
+import React, { FC } from 'react'
+import { Link } from '../../Link'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 import { CardItem } from './CardItem'
@@ -37,30 +37,30 @@ const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
   title,
   itemType,
   description,
-}) => {
-  const { extensionSDK } = useContext(ExtensionContext2)
-
-  const handleClick = () =>
-    id && href ? extensionSDK.updateLocation(href(id)) : undefined
-
-  return (
-    <CardItem onClick={handleClick} id={String(id)}>
-      <Heading
-        as="h4"
-        color="text2"
-        fontSize="xsmall"
-        fontWeight="semiBold"
-        textTransform="uppercase"
-      >
-        {itemType}
-      </Heading>
-      <Heading as="h2" fontSize="medium" fontWeight="semiBold" truncate>
-        {title}
-      </Heading>
-      <Paragraph fontSize="small">{description}</Paragraph>
-    </CardItem>
-  )
-}
+}) => (
+  <CardItem id={String(id)}>
+    <Heading
+      as="h4"
+      color="text2"
+      fontSize="xsmall"
+      fontWeight="semiBold"
+      textTransform="uppercase"
+    >
+      {itemType}
+    </Heading>
+    <Heading as="h2" fontSize="medium" fontWeight="semiBold" truncate>
+      {title}
+    </Heading>
+    <Paragraph fontSize="small">{description}</Paragraph>
+    {href && id && (
+      <Link target="blank" to={href(id)}>
+        <ButtonOutline size="small" mt="small">
+          View
+        </ButtonOutline>
+      </Link>
+    )}
+  </CardItem>
+)
 
 export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => (
   <Grid columns={4}>
