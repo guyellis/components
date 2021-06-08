@@ -31,24 +31,17 @@ import {
   Heading,
   SpaceVertical,
 } from '@looker/components'
-import {
-  ExtensionContextData,
-  ExtensionContext,
-} from '@looker/extension-sdk-react'
-import { IDashboard } from '@looker/sdk'
-// eslint-disable-next-line camelcase
-import { all_dashboards } from '@looker/sdk/lib/4.0/funcs'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState } from 'react'
 import { SupportedCollection } from '../supportedCollections'
 import { Presenter } from './Presenter'
-import { PresentationType } from './types'
+import { ItemProps, PresentationType } from './types'
 
 type CollectionProps = {
   config: SupportedCollection
+  items: Omit<ItemProps, 'href'>[]
 }
 
-export const Collection = ({ config }: CollectionProps) => {
-  const [dashboards, setDashboards] = useState<IDashboard[]>([])
+export const Collection = ({ config, items }: CollectionProps) => {
   const [presentation, setPresentation] = useState<PresentationType>('list')
 
   const { icon, title } = config
@@ -61,16 +54,6 @@ export const Collection = ({ config }: CollectionProps) => {
         setPresentation(newPresentation)
     }
   }
-  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
-  const sdk = extensionContext.core40SDK
-
-  useEffect(() => {
-    const get = async () => {
-      const response = await sdk.ok(all_dashboards(sdk))
-      setDashboards(response)
-    }
-    get()
-  }, [sdk])
 
   const presentationToggle = (
     <ButtonToggle value={presentation} onChange={onChangePresentation}>
@@ -87,11 +70,7 @@ export const Collection = ({ config }: CollectionProps) => {
         {title}
       </Heading>
       {presentationToggle}
-      <Presenter
-        presentation={presentation}
-        collection={dashboards}
-        {...config}
-      />
+      <Presenter presentation={presentation} collection={items} {...config} />
     </SpaceVertical>
   )
 }

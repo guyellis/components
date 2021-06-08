@@ -30,18 +30,33 @@ import {
   DataTableColumns,
   DataTableItem,
 } from '@looker/components'
-import React, { FC } from 'react'
+import {
+  ExtensionContextData,
+  ExtensionContext,
+} from '@looker/extension-sdk-react'
+import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ id, title }) => (
-  <DataTableItem key={id} id={id || 'no_id'}>
-    <DataTableCell>{id}</DataTableCell>
-    <DataTableCell>{title}</DataTableCell>
-  </DataTableItem>
-)
+const Item: FC<ItemProps> = ({ href, id, title }) => {
+  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
+  const extensionSDK = extensionContext.extensionSDK
+  const handleClick = () => {
+    // @TODO: Think of a better fallback URL
+    const fallbackUrl = 'https://google.com'
 
-export const Presenter: FC<PresentationProps> = ({ collection }) => {
+    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
+  }
+
+  return (
+    <DataTableItem key={id} id={id || 'no_id'} onClick={handleClick}>
+      <DataTableCell>{id}</DataTableCell>
+      <DataTableCell>{title}</DataTableCell>
+    </DataTableItem>
+  )
+}
+
+export const Presenter: FC<PresentationProps> = ({ collection, href }) => {
   const columns: DataTableColumns = [
     {
       id: 'id',
@@ -60,7 +75,7 @@ export const Presenter: FC<PresentationProps> = ({ collection }) => {
   return (
     <DataTable caption="It's a table" columns={columns}>
       {collection.map((itemProps) => (
-        <Item key={itemProps.id} {...itemProps} />
+        <Item key={itemProps.id} {...itemProps} href={href} />
       ))}
     </DataTable>
   )

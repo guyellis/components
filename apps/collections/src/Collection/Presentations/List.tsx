@@ -25,16 +25,37 @@
  */
 
 import { List, ListItem } from '@looker/components'
-import React, { FC } from 'react'
+import {
+  ExtensionContext,
+  ExtensionContextData,
+} from '@looker/extension-sdk-react'
+import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ title }) => <ListItem>{title}</ListItem>
+const Item: FC<ItemProps> = ({ href, id, title }) => {
+  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
+  const extensionSDK = extensionContext.extensionSDK
+  const handleClick = () => {
+    // @TODO: Think of a better fallback URL
+    const fallbackUrl = 'https://google.com'
 
-export const Presenter: FC<PresentationProps> = ({ collection }) => (
-  <List>
-    {collection.map((item, i) => (
-      <Item key={i} {...item} />
-    ))}
-  </List>
-)
+    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
+  }
+
+  return (
+    <ListItem id={id} onClick={handleClick}>
+      {title}
+    </ListItem>
+  )
+}
+
+export const Presenter: FC<PresentationProps> = ({ collection, href }) => {
+  return (
+    <List>
+      {collection.map((item, i) => (
+        <Item key={i} {...item} href={href} />
+      ))}
+    </List>
+  )
+}

@@ -25,17 +25,38 @@
  */
 
 import { Page, Section } from '@looker/components'
-import React from 'react'
-import { Collection } from './Collection/Collection'
+import React, { useContext, useEffect, useState } from 'react'
+// eslint-disable-next-line camelcase
+import { all_dashboards } from '@looker/sdk/lib/4.0/funcs'
+import { IDashboard } from '@looker/sdk'
+import {
+  ExtensionContextData,
+  ExtensionContext,
+} from '@looker/extension-sdk-react'
 import { Navigation } from './Navigation/Navigation'
+import { Collection } from './Collection/Collection'
 
 import { supportedCollections } from './supportedCollections'
 
-export const App = () => (
-  <Page hasAside>
-    <Navigation collections={supportedCollections} />
-    <Section main py="medium">
-      <Collection config={supportedCollections[0]} />
-    </Section>
-  </Page>
-)
+export const App = () => {
+  const [dashboards, setDashboards] = useState<IDashboard[]>([])
+  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
+  const sdk = extensionContext.core40SDK
+
+  useEffect(() => {
+    const get = async () => {
+      const response = await sdk.ok(all_dashboards(sdk))
+      setDashboards(response)
+    }
+    get()
+  }, [sdk])
+
+  return (
+    <Page hasAside>
+      <Navigation collections={supportedCollections} />
+      <Section main py="medium">
+        <Collection config={supportedCollections[0]} items={dashboards} />
+      </Section>
+    </Page>
+  )
+}

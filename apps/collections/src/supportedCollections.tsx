@@ -39,7 +39,7 @@ export type SupportedCollections = SupportedCollection[]
 
 export const supportedCollections: SupportedCollection[] = [
   {
-    href: (id: string) => `dashboards-next/${id}`,
+    href: (id: string) => `/dashboards-next/${id}`,
     icon: <Dashboard />,
     title: 'Dashboards',
   },
