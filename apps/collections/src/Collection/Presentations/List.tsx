@@ -24,25 +24,26 @@
 
  */
 
-import { List, ListItem } from '@looker/components'
+import { List, ListItem, Link } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, useContext } from 'react'
+import React, { FC, MouseEvent, useContext } from 'react'
 import { CollectionContext } from '../CollectionContext'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ href, id, title }) => {
+const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
   const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
+
     // @TODO: Think of a better fallback URL
     const fallbackUrl = 'https://google.com'
-
     extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
   }
 
   return (
-    <ListItem id={String(id)} onClick={handleClick}>
-      {title}
+    <ListItem id={String(id)} onClick={() => onSelect && onSelect(String(id))}>
+      <Link onClick={handleClick}>{title}</Link>
     </ListItem>
   )
 }
@@ -53,7 +54,7 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
   return (
     <List color="key" select={select} width="100%">
       {items.map((item, i) => (
-        <Item key={i} {...item} href={href} />
+        <Item key={i} {...item} href={href} onSelect={select?.onSelect} />
       ))}
     </List>
   )

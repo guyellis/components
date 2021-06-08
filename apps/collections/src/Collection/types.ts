@@ -32,4 +32,5 @@ export type ItemProps = {
   description?: string
   id?: string | number
   href?: (id: string | number) => string
+  onSelect?: (id: string) => void
 }

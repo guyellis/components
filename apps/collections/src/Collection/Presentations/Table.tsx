@@ -29,19 +29,21 @@ import {
   DataTableCell,
   DataTableColumns,
   DataTableItem,
+  Link,
 } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, useContext } from 'react'
+import React, { FC, MouseEvent, useContext } from 'react'
 import { CollectionContext } from '../CollectionContext'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ href, id, title }) => {
+const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
   const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
+
     // @TODO: Think of a better fallback URL
     const fallbackUrl = 'https://google.com'
-
     extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
   }
 
@@ -49,10 +51,12 @@ const Item: FC<ItemProps> = ({ href, id, title }) => {
     <DataTableItem
       key={id}
       id={id ? String(id) : 'no_id'}
-      onClick={handleClick}
+      onClick={() => onSelect && onSelect(String(id))}
     >
       <DataTableCell>{id}</DataTableCell>
-      <DataTableCell>{title}</DataTableCell>
+      <DataTableCell>
+        <Link onClick={handleClick}>{title}</Link>
+      </DataTableCell>
     </DataTableItem>
   )
 }
@@ -78,7 +82,7 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
   return (
     <DataTable caption="It's a table" columns={columns} select={select}>
       {items.map((item, i) => (
-        <Item key={i} href={href} {...item} />
+        <Item key={i} href={href} onSelect={select?.onSelect} {...item} />
       ))}
     </DataTable>
   )
