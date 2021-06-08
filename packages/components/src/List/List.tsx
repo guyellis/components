@@ -42,7 +42,7 @@ import {
 } from '@looker/design-tokens'
 import { HeightProps, fontFamily } from 'styled-system'
 import styled from 'styled-components'
-import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
+import { SelectConfig } from '../Collection'
 import { useArrowKeyNav, useWindow } from '../utils'
 import { ListItemContext } from './ListItemContext'
 import { DensityRamp, ListColorProps } from './types'

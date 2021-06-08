@@ -24,31 +24,21 @@
 
  */
 
-import {
-  Aside,
-  Page,
-  Paragraph,
-  Section,
-  useSelectManager,
-} from '@looker/components'
-import React, { useEffect, useState } from 'react'
-import { getCoreSDK2 } from '@looker/extension-sdk-react'
-// eslint-disable-next-line camelcase
-import { Route, useParams } from 'react-router-dom'
-import { Looker40SDK } from '@looker/sdk'
-import { Navigation } from './Navigation/Navigation'
-import { Collection } from './Collection/Collection'
+import { Aside, Page, Section } from '@looker/components'
+import React from 'react'
+import { Route } from 'react-router-dom'
+import { Navigation } from './Navigation'
 import { supportedCollections } from './supportedCollections'
-import { ItemProps } from './Collection/types'
 import { HomePage } from './HomePage'
+import { CollectionRouter } from './Collection'
 
 export const App = () => {
   return (
     <Page hasAside fixed>
-      <Aside py="medium" width="navigation">
+      <Aside py="large" pr="xlarge" width="navigation">
         <Navigation collections={supportedCollections} />
       </Aside>
-      <Section main py="medium" px="xxlarge">
+      <Section main borderLeft="ui2">
         <Route exact path="/">
           <HomePage collections={supportedCollections} />
         </Route>
@@ -57,52 +47,5 @@ export const App = () => {
         </Route>
       </Section>
     </Page>
-  )
-}
-
-const CollectionRouter = () => {
-  const sdk = getCoreSDK2<Looker40SDK>()
-  const [items, setItems] = useState<ItemProps[]>([])
-  const [error, setError] = useState<string>()
-
-  const { collection } = useParams<{ collection?: string }>()
-
-  const supportedCollection = supportedCollections.find(
-    (c) => c.title.toLowerCase() === collection
-  )
-
-  const endpoint = supportedCollection && supportedCollection.endpoint
-
-  const itemIds = items.map(({ id }) => String(id))
-  const { onSelect, onSelectAll, selections, setSelections } =
-    useSelectManager(itemIds)
-
-  useEffect(() => {
-    setItems([])
-
-    if (endpoint) {
-      const get = async () => {
-        // TODO - This should reasonably handle SDK errors
-
-        const response = await sdk.ok(endpoint(sdk))
-        setItems(response)
-      }
-      get()
-    }
-  }, [sdk, endpoint])
-
-  useEffect(() => setSelections([]), [collection, setSelections])
-
-  const selectConfig = {
-    onSelect,
-    onSelectAll,
-    pageItems: itemIds,
-    selectedItems: selections,
-  }
-
-  return supportedCollection && supportedCollection.endpoint ? (
-    <Collection {...supportedCollection} items={items} select={selectConfig} />
-  ) : (
-    <Paragraph color="critical">Collection type not yet implemented</Paragraph>
   )
 }

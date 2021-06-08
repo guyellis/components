@@ -24,8 +24,8 @@
 
  */
 
-import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
 import { createContext } from 'react'
+import { SelectConfig } from '../Collection'
 import { DensityRamp, ListColor } from './types'
 
 export interface ListItemContextProps {

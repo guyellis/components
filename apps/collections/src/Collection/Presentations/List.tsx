@@ -24,10 +24,10 @@
 
  */
 
-import { List, ListItem, Link } from '@looker/components'
+import styled from 'styled-components'
+import { CollectionContext, List, ListItem, Link } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, MouseEvent, useContext } from 'react'
-import { CollectionContext } from '../CollectionContext'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
@@ -48,14 +48,24 @@ const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
   )
 }
 
-export const Presenter: FC<PresentationProps> = ({ items, href }) => {
+const PresenterInternal: FC<PresentationProps> = ({
+  items,
+  href,
+  ...props
+}) => {
   const { select } = useContext(CollectionContext)
 
   return (
-    <List color="key" select={select} width="100%">
+    <List color="key" select={select} width="100%" {...props}>
       {items.map((item, i) => (
         <Item key={i} {...item} href={href} onSelect={select?.onSelect} />
       ))}
     </List>
   )
 }
+
+export const Presenter = styled(PresenterInternal)`
+  ${ListItem} {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.ui2};
+  }
+`

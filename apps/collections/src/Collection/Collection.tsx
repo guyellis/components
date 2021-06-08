@@ -27,15 +27,14 @@
 import {
   ButtonItem,
   ButtonToggle,
-  Icon,
-  Heading,
-  Space,
+  CollectionContext,
+  CollectionContextProps,
   SpaceVertical,
 } from '@looker/components'
 import React from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import { PageHeader } from '../PageHeader/PageHeader'
 import { SupportedCollection } from '../supportedCollections'
-import { CollectionContext, CollectionContextProps } from './CollectionContext'
 import { PresentationProps, Presenter } from './Presenter'
 import { PresentationType } from './types'
 
@@ -75,20 +74,10 @@ export const Collection = ({
   return (
     <CollectionContext.Provider value={{ select }}>
       <SpaceVertical>
-        <Space between>
-          <Space gap="xsmall" width="auto">
-            {icon && (
-              <Icon
-                color="key"
-                icon={icon}
-                display="inline-block"
-                size="large"
-              />
-            )}
-            <Heading fontSize="xxxxlarge">{title}</Heading>
-          </Space>
-          <div>{presentationToggle}</div>
-        </Space>
+        <PageHeader icon={icon} detail={presentationToggle}>
+          {title}
+        </PageHeader>
+
         <Presenter
           itemType={itemType}
           href={href}

@@ -25,10 +25,10 @@
  */
 
 import { CompatibleHTMLProps, shouldForwardProp } from '@looker/design-tokens'
-import { SelectConfig } from 'apps/collections/src/Collection/CollectionContext'
 import React, { FC } from 'react'
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
-import { Checkbox } from '..'
+import { SelectConfig } from '../Collection'
+import { Checkbox } from '../Form/Inputs/Checkbox'
 import { FocusVisibleProps } from '../utils'
 import { FlexibleColor, ListItemRole, ListItemStatefulProps } from './types'
 import { listItemBackgroundColor } from './utils'
@@ -76,11 +76,7 @@ const ListItemLabelLayout: FC<ListItemLabelProps> = ({
       {select && (
         <Checkbox
           checked={isChecked}
-          onChange={(event) => {
-            // Prevent checkbox clicks from triggering row clicks
-            event.stopPropagation()
-            return id && select.onSelect(id)
-          }}
+          onChange={() => select.onSelect(String(id))}
           mr="large"
         />
       )}

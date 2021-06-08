@@ -25,6 +25,7 @@
  */
 
 import {
+  CollectionContext,
   DataTable,
   DataTableCell,
   DataTableColumns,
@@ -33,7 +34,6 @@ import {
 } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, MouseEvent, useContext } from 'react'
-import { CollectionContext } from '../CollectionContext'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 

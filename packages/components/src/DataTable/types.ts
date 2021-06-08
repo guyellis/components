@@ -25,6 +25,7 @@
  */
 
 import { ReactElement, ReactNode } from 'react'
+import { SelectConfig } from '../Collection'
 import { InputFiltersProps } from '../Form/Inputs/InputFilters'
 import { DataTableColumns } from './Column'
 
@@ -78,26 +79,6 @@ export interface DataTableProps {
    * Text to be displayed when no results state displayed
    */
   noResultsDisplay?: ReactNode
-}
-
-export interface SelectConfig {
-  /**
-   * The ids of all DataTableItems which should be displayed as "selected"
-   */
-  selectedItems: string[]
-  /**
-   * An array containing the id's of all visible items (i.e. all items on the current page)
-   * This is primarily used when determining the checked state of the select all checkbox
-   */
-  pageItems: string[]
-  /**
-   * Callback performed when user makes a selection
-   */
-  onSelect: (id: string) => void
-  /**
-   * Callback performed when user makes selects the header checkbox
-   */
-  onSelectAll: () => void
 }
 
 export interface BulkActionsConfig {

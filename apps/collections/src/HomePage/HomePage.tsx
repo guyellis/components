@@ -25,17 +25,12 @@
  */
 
 import React from 'react'
-import {
-  Card,
-  CardContent,
-  Grid,
-  Heading,
-  Icon,
-  Space,
-} from '@looker/components'
+import { Card, CardContent, Heading } from '@looker/components'
 import { Home } from '@styled-icons/material-outlined/Home'
 import { SupportedCollections } from '../supportedCollections'
 import { Link } from '../Link'
+import { PageHeader } from '../PageHeader/PageHeader'
+import { CardGrid } from '../Card/CardGrid'
 import { CardBanner } from './CardBanner'
 
 type HomeProps = {
@@ -56,13 +51,8 @@ export const HomePage = ({ collections }: HomeProps) => {
 
   return (
     <>
-      <Space gap="xsmall" width="auto">
-        <Icon color="key" icon={<Home />} display="inline-block" size="large" />
-        <Heading fontSize="xxxxlarge">Welcome</Heading>
-      </Space>
-      <Grid gap="xxlarge" py="large" columns={3}>
-        {cards}
-      </Grid>
+      <PageHeader icon={<Home />}>Welcome</PageHeader>
+      <CardGrid>{cards}</CardGrid>
     </>
   )
 }

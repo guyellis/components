@@ -24,29 +24,9 @@
 
  */
 
-import { NavList } from '@looker/components'
-import { Home } from '@styled-icons/material-outlined/Home'
-import React from 'react'
-import { SupportedCollections } from '../supportedCollections'
-import { NavigationItem } from './NavigationItem'
+import { Grid } from '@looker/components'
+import React, { FC } from 'react'
 
-export const Navigation = ({
-  collections,
-}: {
-  collections: SupportedCollections
-}) => {
-  const items = collections.map(({ title, icon }, i) => (
-    <NavigationItem key={i} to={`/${title.toLowerCase()}`} icon={icon}>
-      {title}
-    </NavigationItem>
-  ))
-
-  return (
-    <NavList>
-      <NavigationItem exact to="/" icon={<Home />}>
-        Home
-      </NavigationItem>
-      {items}
-    </NavList>
-  )
-}
+export const CardGrid: FC = (props) => (
+  <Grid gap="large" px="xlarge" columns={3} {...props} />
+)

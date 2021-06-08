@@ -24,12 +24,11 @@
 
  */
 
-import { Grid } from '@looker/components'
 import React, { FC } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
-// import { CardItem } from '../../Card/CardItem'
 import { ContentCard } from '../../Card/ContentCard'
+import { CardGrid } from '../../Card/CardGrid'
 
 const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
   href,
@@ -53,9 +52,9 @@ const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
 }
 
 export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => (
-  <Grid columns={3}>
+  <CardGrid>
     {items.map((item, i) => (
       <Item key={i} {...item} href={href} itemType={itemType} />
     ))}
-  </Grid>
+  </CardGrid>
 )

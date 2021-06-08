@@ -24,10 +24,15 @@
 
  */
 
-import { Card, CardContent, CardProps, Checkbox } from '@looker/components'
+import {
+  Card,
+  CardContent,
+  CardProps,
+  Checkbox,
+  CollectionContext,
+} from '@looker/components'
 import React, { FC, useContext } from 'react'
 import styled from 'styled-components'
-import { CollectionContext } from '../Collection/CollectionContext'
 
 const CardItemInternal: FC<CardProps> = ({ children, ...props }) => {
   const { select } = useContext(CollectionContext)

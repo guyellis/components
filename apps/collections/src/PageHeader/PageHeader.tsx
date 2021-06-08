@@ -24,29 +24,22 @@
 
  */
 
-import { NavList } from '@looker/components'
-import { Home } from '@styled-icons/material-outlined/Home'
-import React from 'react'
-import { SupportedCollections } from '../supportedCollections'
-import { NavigationItem } from './NavigationItem'
+import { Icon, Heading, Space, IconType } from '@looker/components'
+import React, { FC, ReactNode } from 'react'
 
-export const Navigation = ({
-  collections,
-}: {
-  collections: SupportedCollections
-}) => {
-  const items = collections.map(({ title, icon }, i) => (
-    <NavigationItem key={i} to={`/${title.toLowerCase()}`} icon={icon}>
-      {title}
-    </NavigationItem>
-  ))
-
-  return (
-    <NavList>
-      <NavigationItem exact to="/" icon={<Home />}>
-        Home
-      </NavigationItem>
-      {items}
-    </NavList>
-  )
+type PageHeaderProps = {
+  icon?: IconType
+  detail?: ReactNode
 }
+
+export const PageHeader: FC<PageHeaderProps> = ({ icon, children, detail }) => (
+  <Space between p="xlarge">
+    <Space gap="xsmall" width="auto">
+      {icon && (
+        <Icon color="key" icon={icon} display="inline-block" size="large" />
+      )}
+      <Heading fontSize="xxxxlarge">{children}</Heading>
+    </Space>
+    {detail && <div>{detail}</div>}
+  </Space>
+)

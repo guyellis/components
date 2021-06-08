@@ -24,29 +24,4 @@
 
  */
 
-import { NavList } from '@looker/components'
-import { Home } from '@styled-icons/material-outlined/Home'
-import React from 'react'
-import { SupportedCollections } from '../supportedCollections'
-import { NavigationItem } from './NavigationItem'
-
-export const Navigation = ({
-  collections,
-}: {
-  collections: SupportedCollections
-}) => {
-  const items = collections.map(({ title, icon }, i) => (
-    <NavigationItem key={i} to={`/${title.toLowerCase()}`} icon={icon}>
-      {title}
-    </NavigationItem>
-  ))
-
-  return (
-    <NavList>
-      <NavigationItem exact to="/" icon={<Home />}>
-        Home
-      </NavigationItem>
-      {items}
-    </NavList>
-  )
-}
+export { CollectionRouter } from './CollectionRouter'
