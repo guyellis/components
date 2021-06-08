@@ -24,12 +24,12 @@
 
  */
 
-import { ButtonOutline, Grid, Heading, Paragraph } from '@looker/components'
+import { Grid } from '@looker/components'
 import React, { FC } from 'react'
-import { Link } from '../../Link'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
-import { CardItem } from './CardItem'
+// import { CardItem } from '../../Card/CardItem'
+import { ContentCard } from '../../Card/ContentCard'
 
 const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
   href,
@@ -37,33 +37,23 @@ const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
   title,
   itemType,
   description,
-}) => (
-  <CardItem id={String(id)}>
-    <Heading
-      as="h4"
-      color="text2"
-      fontSize="xsmall"
-      fontWeight="semiBold"
-      textTransform="uppercase"
+  // detail,
+}) => {
+  return (
+    <ContentCard
+      overline={itemType}
+      description={description}
+      href={href && id ? href(id) : undefined}
+      id={String(id)}
+      // detail={detail}
     >
-      {itemType}
-    </Heading>
-    <Heading as="h2" fontSize="medium" fontWeight="semiBold" truncate>
       {title}
-    </Heading>
-    <Paragraph fontSize="small">{description}</Paragraph>
-    {href && id && (
-      <Link target="blank" to={href(id)}>
-        <ButtonOutline size="small" mt="small">
-          View
-        </ButtonOutline>
-      </Link>
-    )}
-  </CardItem>
-)
+    </ContentCard>
+  )
+}
 
 export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => (
-  <Grid columns={4}>
+  <Grid columns={3}>
     {items.map((item, i) => (
       <Item key={i} {...item} href={href} itemType={itemType} />
     ))}

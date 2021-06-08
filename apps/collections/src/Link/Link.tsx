@@ -24,10 +24,16 @@
 
  */
 
-import { Link as RouterLink } from 'react-router-dom'
+import { LinkProps, Link as RouterLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-export const Link = styled(RouterLink)`
+type LinkLinkProps = LinkProps & { visible?: boolean }
+
+export const Link = styled(RouterLink)<LinkLinkProps>`
   color: inherit;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: ${({ visible }) => (visible ? 'underline' : undefined)};
+  }
 `

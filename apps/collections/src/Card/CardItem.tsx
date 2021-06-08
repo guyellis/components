@@ -27,7 +27,7 @@
 import { Card, CardContent, CardProps, Checkbox } from '@looker/components'
 import React, { FC, useContext } from 'react'
 import styled from 'styled-components'
-import { CollectionContext } from '../CollectionContext'
+import { CollectionContext } from '../Collection/CollectionContext'
 
 const CardItemInternal: FC<CardProps> = ({ children, ...props }) => {
   const { select } = useContext(CollectionContext)
@@ -44,7 +44,7 @@ const CardItemInternal: FC<CardProps> = ({ children, ...props }) => {
           <div className="checkbox-container">
             <Checkbox checked={isChecked} id={formId} onChange={handleChange} />
           </div>
-          <CardContent>{children}</CardContent>
+          {children}
         </CardItemStyle>
       </label>
     )
