@@ -28,26 +28,41 @@ import { Dashboard } from '@styled-icons/material-rounded/Dashboard'
 import { Folder } from '@styled-icons/material-rounded/Folder'
 import { QueryStats } from '@styled-icons/material-rounded/QueryStats'
 import React from 'react'
+import { IError, Looker40SDK } from '@looker/sdk'
+
+/* eslint-disable camelcase */
+import {
+  all_dashboards,
+  all_looks,
+  all_boards,
+} from '@looker/sdk/lib/4.0/funcs'
+/* eslint-enable camelcase */
+import type { SDKResponse } from '@looker/sdk-rtl'
+import { ItemProps } from './Collection/types'
 
 export type SupportedCollection = {
   title: string
-  href?: (id: string) => string
+  href?: (id: number | string) => string
   icon?: IconType
+  endpoint?: (sdk: Looker40SDK) => Promise<SDKResponse<ItemProps[], IError>>
 }
 
 export type SupportedCollections = SupportedCollection[]
 
 export const supportedCollections: SupportedCollection[] = [
   {
-    href: (id: string) => `/dashboards-next/${id}`,
+    endpoint: all_dashboards,
+    href: (id: string | number) => `/dashboards-next/${id}`,
     icon: <Dashboard />,
     title: 'Dashboards',
   },
   {
+    endpoint: all_looks,
     icon: <QueryStats />,
     title: 'Looks',
   },
   {
+    endpoint: all_boards,
     icon: <Folder />,
     title: 'Boards',
   },

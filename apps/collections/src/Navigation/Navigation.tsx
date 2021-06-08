@@ -24,24 +24,73 @@
 
  */
 
-import { NavList, ListItem, Aside } from '@looker/components'
+import {
+  NavList,
+  ListItem,
+  Aside,
+  ListItemProps,
+  IconType,
+} from '@looker/components'
 import React, { FC } from 'react'
+import { NavLink } from 'react-router-dom'
 import { SupportedCollections } from '../supportedCollections'
+import useNavigate from './useNavigate'
+
+const ACTIVE_CLASS_NAME = 'active'
 
 export const Navigation: FC<{ collections: SupportedCollections }> = ({
   collections,
 }) => {
-  const items = collections.map(({ title, icon }, i) => {
-    return (
-      <ListItem key={i} href={title.toLowerCase()} icon={icon}>
-        {title}
-      </ListItem>
-    )
-  })
+  const items = collections.map(({ title, icon }, i) => (
+    <NavigationItem key={i} to={title.toLowerCase()} icon={icon}>
+      {title}
+    </NavigationItem>
+  ))
 
   return (
     <Aside py="medium" width="navigation">
       <NavList>{items}</NavList>
     </Aside>
+  )
+}
+
+const Defaults: FC<ListItemProps & { navigate(): void }> = ({
+  navigate,
+  onClick: propsOnClick,
+  ...props
+}) => {
+  const onClick = useNavigate(navigate, {
+    onClick: propsOnClick,
+    target: props.target,
+  })
+
+  return (
+    <ListItem
+      itemRole="link"
+      selected={props.className?.split(' ').includes(ACTIVE_CLASS_NAME)}
+      truncate
+      onClick={onClick}
+      {...props}
+    />
+  )
+}
+
+const NavigationItem: FC<{ to: string; icon?: IconType }> = ({
+  to,
+  ...props
+}) => {
+  const NavigableWithProps = React.useCallback(
+    (linkProps) => <Defaults {...linkProps} />,
+    Object.values(props) // shallow equality check
+  )
+
+  return (
+    <NavLink
+      activeClassName={ACTIVE_CLASS_NAME}
+      exact
+      to={to}
+      component={NavigableWithProps}
+      {...props}
+    />
   )
 }

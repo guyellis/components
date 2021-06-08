@@ -31,8 +31,8 @@ import { Presenter as ListPresenter } from './Presentations/List'
 import { Presenter as TablePresenter } from './Presentations/Table'
 import { ItemProps, PresentationType } from './types'
 
-export type PresentationProps = SupportedCollection & {
-  collection: ItemProps[]
+export type PresentationProps = Pick<SupportedCollection, 'href'> & {
+  items: ItemProps[]
 }
 
 export type PresenterProps = PresentationProps & {
@@ -40,15 +40,15 @@ export type PresenterProps = PresentationProps & {
 }
 
 export const Presenter: FC<PresenterProps> = ({
-  collection,
+  items,
   presentation,
   ...props
 }) => {
   if (presentation === 'cards') {
-    return <CardsPresenter collection={collection} {...props} />
+    return <CardsPresenter items={items} {...props} />
   } else if (presentation === 'list') {
-    return <ListPresenter collection={collection} {...props} />
+    return <ListPresenter items={items} {...props} />
   } else {
-    return <TablePresenter collection={collection} {...props} />
+    return <TablePresenter items={items} {...props} />
   }
 }

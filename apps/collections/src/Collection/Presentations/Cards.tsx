@@ -25,17 +25,13 @@
  */
 
 import { Card, CardContent, Grid } from '@looker/components'
-import {
-  ExtensionContextData,
-  ExtensionContext,
-} from '@looker/extension-sdk-react'
+import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
 const Item: FC<ItemProps> = ({ href, id, title }) => {
-  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
-  const extensionSDK = extensionContext.extensionSDK
+  const { extensionSDK } = useContext(ExtensionContext2)
   const handleClick = () => {
     // @TODO: Think of a better fallback URL
     const fallbackUrl = 'https://google.com'
@@ -50,9 +46,9 @@ const Item: FC<ItemProps> = ({ href, id, title }) => {
   )
 }
 
-export const Presenter: FC<PresentationProps> = ({ collection, href }) => (
+export const Presenter: FC<PresentationProps> = ({ items, href }) => (
   <Grid columns={4}>
-    {collection.map((item, i) => (
+    {items.map((item, i) => (
       <Item key={i} {...item} href={href} />
     ))}
   </Grid>

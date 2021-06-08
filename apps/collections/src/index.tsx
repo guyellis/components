@@ -23,10 +23,12 @@
  SOFTWARE.
 
  */
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { ComponentsProvider } from '@looker/components'
-import { ExtensionProvider } from '@looker/extension-sdk-react'
+import { ExtensionProvider2 } from '@looker/extension-sdk-react'
+import { Looker40SDK } from '@looker/sdk'
 import { App } from './App'
 import { Loading } from './Loading'
 
@@ -47,12 +49,9 @@ const render = () => {
 
   ReactDOM.render(
     <ComponentsProvider>
-      <ExtensionProvider
-        loadingComponent={<Loading />}
-        requiredLookerVersion=">=21.0"
-      >
+      <ExtensionProvider2 type={Looker40SDK} loadingComponent={<Loading />}>
         <App />
-      </ExtensionProvider>
+      </ExtensionProvider2>
     </ComponentsProvider>,
     root
   )

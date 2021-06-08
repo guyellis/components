@@ -33,18 +33,13 @@ import {
 } from '@looker/components'
 import React, { useState } from 'react'
 import { SupportedCollection } from '../supportedCollections'
-import { Presenter } from './Presenter'
-import { ItemProps, PresentationType } from './types'
+import { PresentationProps, Presenter } from './Presenter'
+import { PresentationType } from './types'
 
-type CollectionProps = {
-  config: SupportedCollection
-  items: Omit<ItemProps, 'href'>[]
-}
+type CollectionProps = SupportedCollection & PresentationProps
 
-export const Collection = ({ config, items }: CollectionProps) => {
+export const Collection = ({ icon, title, href, items }: CollectionProps) => {
   const [presentation, setPresentation] = useState<PresentationType>('list')
-
-  const { icon, title } = config
 
   const onChangePresentation = (newPresentation: string) => {
     switch (newPresentation) {
@@ -70,7 +65,7 @@ export const Collection = ({ config, items }: CollectionProps) => {
         {title}
       </Heading>
       {presentationToggle}
-      <Presenter presentation={presentation} collection={items} {...config} />
+      <Presenter href={href} presentation={presentation} items={items} />
     </SpaceVertical>
   )
 }

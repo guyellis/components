@@ -24,39 +24,64 @@
 
  */
 
-import { Page, Section } from '@looker/components'
-import React, { useContext, useEffect, useState } from 'react'
+import { Page, Section, Paragraph } from '@looker/components'
+import React, { useEffect, useState } from 'react'
+import { getCoreSDK2 } from '@looker/extension-sdk-react'
 // eslint-disable-next-line camelcase
-import { all_dashboards } from '@looker/sdk/lib/4.0/funcs'
-import { IDashboard } from '@looker/sdk'
-import {
-  ExtensionContextData,
-  ExtensionContext,
-} from '@looker/extension-sdk-react'
+import { Route, useParams } from 'react-router-dom'
+import { Looker40SDK } from '@looker/sdk'
 import { Navigation } from './Navigation/Navigation'
 import { Collection } from './Collection/Collection'
 
 import { supportedCollections } from './supportedCollections'
+import { ItemProps } from './Collection/types'
 
 export const App = () => {
-  const [dashboards, setDashboards] = useState<IDashboard[]>([])
-  const extensionContext = useContext<ExtensionContextData>(ExtensionContext)
-  const sdk = extensionContext.core40SDK
-
-  useEffect(() => {
-    const get = async () => {
-      const response = await sdk.ok(all_dashboards(sdk))
-      setDashboards(response)
-    }
-    get()
-  }, [sdk])
-
   return (
     <Page hasAside>
       <Navigation collections={supportedCollections} />
       <Section main py="medium">
-        <Collection config={supportedCollections[0]} items={dashboards} />
+        <Route exact path="/">
+          <Paragraph>Choose a collection...</Paragraph>
+        </Route>
+        <Route path="/:collection">
+          <CollectionRouter />
+        </Route>
       </Section>
     </Page>
+  )
+}
+
+const CollectionRouter = () => {
+  const sdk = getCoreSDK2<Looker40SDK>()
+  const [items, setItems] = useState<ItemProps[]>([])
+  const [error, setError] = useState<string>()
+
+  const { collection } = useParams<{ collection?: string }>()
+
+  const supportedCollection = supportedCollections.find(
+    (c) => c.title.toLowerCase() === collection
+  )
+
+  const endpoint = supportedCollection && supportedCollection.endpoint
+
+  useEffect(() => {
+    setItems([])
+
+    if (endpoint) {
+      const get = async () => {
+        // TODO - This should reasonably handle SDK errors
+
+        const response = await sdk.ok(endpoint(sdk))
+        setItems(response)
+      }
+      get()
+    }
+  }, [sdk, endpoint])
+
+  return supportedCollection && supportedCollection.endpoint ? (
+    <Collection {...supportedCollection} items={items} />
+  ) : (
+    <Paragraph color="critical">Collection type not yet implemented</Paragraph>
   )
 }

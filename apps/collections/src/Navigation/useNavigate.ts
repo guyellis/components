@@ -23,35 +23,42 @@
  SOFTWARE.
 
  */
+import { useCallback } from 'react'
 
-import { List, ListItem } from '@looker/components'
-import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, useContext } from 'react'
-import { PresentationProps } from '../Presenter'
-import { ItemProps } from '../types'
-
-const Item: FC<ItemProps> = ({ href, id, title }) => {
-  const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = () => {
-    // @TODO: Think of a better fallback URL
-    const fallbackUrl = 'https://google.com'
-
-    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
-  }
-
-  return (
-    <ListItem id={id} onClick={handleClick}>
-      {title}
-    </ListItem>
-  )
+// copied from react-router-dom/modules/Link.js
+function isModifiedEvent(event: React.MouseEvent) {
+  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
-export const Presenter: FC<PresentationProps> = ({ items, href }) => {
-  return (
-    <List>
-      {items.map((item, i) => (
-        <Item key={i} {...item} href={href} />
-      ))}
-    </List>
+// extracts useful behavior from React Router's <LinkAnchor /> for
+// re-use in custom link components
+export default function useNavigate<T extends Element>(
+  navigate: () => void,
+  {
+    onClick,
+    target,
+  }: {
+    onClick?: React.MouseEventHandler<T>
+    target?: HTMLAnchorElement['target']
+  } = {}
+): React.MouseEventHandler<T> {
+  return useCallback(
+    (event) => {
+      try {
+        onClick?.(event)
+      } catch (ex) {
+        event.preventDefault()
+        throw ex
+      }
+
+      if (event.defaultPrevented) return
+      if (event.button !== 0) return
+      if (target && target !== '_self') return
+      if (isModifiedEvent(event)) return
+
+      event.preventDefault()
+      navigate()
+    },
+    [navigate, onClick, target]
   )
 }
