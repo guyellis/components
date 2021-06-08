@@ -38,10 +38,10 @@ export interface SelectConfig {
 
   /**
    * These props are necessary for select all behavior
-   *
-   * pageItems: string[]
-   * onSelectAll: () => void
+   * At the moment, only DataTable makes use of these props / select all behavior
    */
+  pageItems: string[]
+  onSelectAll: () => void
 }
 
 export interface CollectionContextProps {

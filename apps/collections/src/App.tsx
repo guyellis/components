@@ -74,7 +74,7 @@ const CollectionRouter = () => {
   const endpoint = supportedCollection && supportedCollection.endpoint
 
   const itemIds = items.map(({ id }) => String(id))
-  const { onSelect, selections } = useSelectManager(itemIds)
+  const { onSelect, onSelectAll, selections } = useSelectManager(itemIds)
 
   useEffect(() => {
     setItems([])
@@ -92,6 +92,8 @@ const CollectionRouter = () => {
 
   const selectConfig = {
     onSelect,
+    onSelectAll,
+    pageItems: itemIds,
     selectedItems: selections,
   }
 
