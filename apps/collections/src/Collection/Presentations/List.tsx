@@ -51,7 +51,7 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
   const { select } = useContext(CollectionContext)
 
   return (
-    <List color="key" select={select}>
+    <List color="key" select={select} width="100%">
       {items.map((item, i) => (
         <Item key={i} {...item} href={href} />
       ))}
