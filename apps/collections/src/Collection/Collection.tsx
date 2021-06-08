@@ -46,6 +46,7 @@ type CollectionProps = SupportedCollection &
 export const Collection = ({
   icon,
   title,
+  itemType,
   href,
   items,
   select,
@@ -88,7 +89,12 @@ export const Collection = ({
           </Space>
           <div>{presentationToggle}</div>
         </Space>
-        <Presenter href={href} presentation={presentation} items={items} />
+        <Presenter
+          itemType={itemType}
+          href={href}
+          presentation={presentation}
+          items={items}
+        />
       </SpaceVertical>
     </CollectionContext.Provider>
   )

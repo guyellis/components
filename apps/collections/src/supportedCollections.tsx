@@ -44,6 +44,7 @@ export type SupportedCollection = {
   title: string
   href?: (id: number | string) => string
   icon?: IconType
+  itemType: string
   endpoint?: (sdk: Looker40SDK) => Promise<SDKResponse<ItemProps[], IError>>
 }
 
@@ -55,18 +56,21 @@ export const supportedCollections: SupportedCollection[] = [
     endpoint: (sdk: Looker40SDK) => search_boards(sdk, { title: '%' }),
     href: (id: string | number) => `/boards/${id}`,
     icon: <Bookmarks />,
+    itemType: 'board',
     title: 'Boards',
   },
   {
     endpoint: all_dashboards,
     href: (id: string | number) => `/dashboards-next/${id}`,
     icon: <Dashboard />,
+    itemType: 'dashboard',
     title: 'Dashboards',
   },
   {
     endpoint: all_looks,
     href: (id: string | number) => `/looks/${id}`,
     icon: <Poll />,
+    itemType: 'look',
     title: 'Looks',
   },
 ]

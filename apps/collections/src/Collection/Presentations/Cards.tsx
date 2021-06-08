@@ -24,32 +24,48 @@
 
  */
 
-import { Card, CardContent, Grid } from '@looker/components'
+import { Grid, Heading, Paragraph } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
+import { CardItem } from './CardItem'
 
-const Item: FC<ItemProps> = ({ href, id, title }) => {
+const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
+  href,
+  id,
+  title,
+  itemType,
+  description,
+}) => {
   const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = () => {
-    // @TODO: Think of a better fallback URL
-    const fallbackUrl = 'https://google.com'
 
-    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
-  }
+  const handleClick = () =>
+    id && href ? extensionSDK.updateLocation(href(id)) : undefined
 
   return (
-    <Card onClick={handleClick}>
-      <CardContent>{title}</CardContent>
-    </Card>
+    <CardItem onClick={handleClick} id={String(id)}>
+      <Heading
+        as="h4"
+        color="text2"
+        fontSize="xsmall"
+        fontWeight="semiBold"
+        textTransform="uppercase"
+      >
+        {itemType}
+      </Heading>
+      <Heading as="h2" fontSize="medium" fontWeight="semiBold" truncate>
+        {title}
+      </Heading>
+      <Paragraph fontSize="small">{description}</Paragraph>
+    </CardItem>
   )
 }
 
-export const Presenter: FC<PresentationProps> = ({ items, href }) => (
+export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => (
   <Grid columns={4}>
     {items.map((item, i) => (
-      <Item key={i} {...item} href={href} />
+      <Item key={i} {...item} href={href} itemType={itemType} />
     ))}
   </Grid>
 )

@@ -31,7 +31,10 @@ import { Presenter as ListPresenter } from './Presentations/List'
 import { Presenter as TablePresenter } from './Presentations/Table'
 import { ItemProps, PresentationType } from './types'
 
-export type PresentationProps = Pick<SupportedCollection, 'href'> & {
+export type PresentationProps = Pick<
+  SupportedCollection,
+  'href' | 'itemType'
+> & {
   items: ItemProps[]
 }
 
