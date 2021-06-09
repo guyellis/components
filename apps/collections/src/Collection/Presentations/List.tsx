@@ -53,10 +53,10 @@ const PresenterInternal: FC<PresentationProps> = ({
   href,
   ...props
 }) => {
-  const { select } = useContext(CollectionContext)
+  const { density, select } = useContext(CollectionContext)
 
   return (
-    <List color="key" select={select} width="100%" {...props}>
+    <List color="key" density={density} select={select} width="100%" {...props}>
       {items.map((item, i) => (
         <Item key={i} {...item} href={href} onSelect={select?.onSelect} />
       ))}

@@ -39,6 +39,7 @@ export const DataTableLayout: FC<DataTableProps> = (props) => {
     className,
     caption,
     columns,
+    density,
     filters: filterInput,
     firstColumnStuck: explicitFirstColumnStuck,
     onSort,
@@ -118,6 +119,7 @@ export const DataTableLayout: FC<DataTableProps> = (props) => {
           caption={caption}
           columns={columns}
           columnsVisible={columnsVisible}
+          density={density}
           firstColumnStuck={firstColumnStuck}
         />
       </div>

@@ -29,10 +29,16 @@ import React, { FC, ReactNode } from 'react'
 
 type PageHeaderProps = {
   icon?: IconType
+  densitySlider?: ReactNode
   detail?: ReactNode
 }
 
-export const PageHeader: FC<PageHeaderProps> = ({ icon, children, detail }) => (
+export const PageHeader: FC<PageHeaderProps> = ({
+  icon,
+  children,
+  densitySlider,
+  detail,
+}) => (
   <Space between p="xlarge">
     <Space gap="xsmall" width="auto">
       {icon && (
@@ -40,6 +46,9 @@ export const PageHeader: FC<PageHeaderProps> = ({ icon, children, detail }) => (
       )}
       <Heading fontSize="xxxxlarge">{children}</Heading>
     </Space>
-    {detail && <div>{detail}</div>}
+    <div>
+      {densitySlider}
+      {detail}
+    </div>
   </Space>
 )

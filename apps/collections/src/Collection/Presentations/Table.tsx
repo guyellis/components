@@ -77,10 +77,15 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
     },
   ]
 
-  const { select } = useContext(CollectionContext)
+  const { density, select } = useContext(CollectionContext)
 
   return (
-    <DataTable caption="It's a table" columns={columns} select={select}>
+    <DataTable
+      caption="It's a table"
+      columns={columns}
+      density={density}
+      select={select}
+    >
       {items.map((item, i) => (
         <Item key={i} href={href} onSelect={select?.onSelect} {...item} />
       ))}

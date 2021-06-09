@@ -24,6 +24,7 @@
 
  */
 
+import { DensityRamp } from 'packages/components/src/List/types'
 import { createContext } from 'react'
 
 export interface SelectConfig {
@@ -45,7 +46,10 @@ export interface SelectConfig {
 }
 
 export interface CollectionContextProps {
+  density: DensityRamp
   select?: SelectConfig
 }
 
-export const CollectionContext = createContext<CollectionContextProps>({})
+export const CollectionContext = createContext<CollectionContextProps>({
+  density: 0,
+})

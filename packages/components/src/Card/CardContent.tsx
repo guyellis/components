@@ -40,7 +40,10 @@ export interface CardContentProps
 
 export const CardContent = styled.div
   .withConfig({ shouldForwardProp })
-  .attrs<CardContentProps>(({ p = 'medium' }) => ({ p }))<CardContentProps>`
+  .attrs<CardContentProps>(({ px = 'medium', py = 'medium' }) => ({
+    px,
+    py,
+  }))<CardContentProps>`
   ${complexLayoutCSS}
   ${flexbox}
 `

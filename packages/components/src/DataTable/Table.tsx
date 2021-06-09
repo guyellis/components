@@ -31,6 +31,8 @@ import styled, { css } from 'styled-components'
 import { Spinner } from '../Spinner'
 import { Heading } from '../Text'
 import { useArrowKeyNav, useCallbackRef, useIsTruncated } from '../utils'
+import { DensityRamp } from '../List/types'
+import { listItemDimensions } from '../List'
 import {
   getNumericColumnIndices,
   numericColumnCSS,
@@ -46,6 +48,7 @@ export interface TableProps extends DataTableProps {
    */
   caption: string
   columnsVisible: string[]
+  density?: DensityRamp
 }
 
 export const TableLayout: FC<TableProps> = (props) => {
@@ -177,18 +180,30 @@ const stickyColumns = css<TableProps>`
   }
 `
 
-export const Table = styled(TableLayout)`
+export const Table = styled(TableLayout).attrs(({ density = 0 }) => ({
+  density,
+}))`
   border-collapse: initial;
   border-spacing: 0;
   font-family: ${({ theme }) => theme.fonts.body};
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-size: ${({ density, theme }) => {
+    const { labelFontSize } = listItemDimensions(density)
+    return theme.fontSizes[labelFontSize]
+  }};
   line-height: 1;
   width: 100%;
 
   td,
   th {
-    height: ${densityTarget}; /* acts like min-height */
-    padding: ${({ theme: { space } }) => `${space.xsmall}  ${space.medium}`};
+    height: ${({ density }) =>
+      listItemDimensions(density).height}px; /* acts like min-height */
+    padding: ${({ density, theme: { space } }) => {
+      const { px, py } = listItemDimensions(density)
+      const renderedPy = py === '0.375rem' ? py : space[py]
+      const renderedPx = space[px]
+
+      return `${renderedPy} ${renderedPx}`
+    }};
 
     :first-child,
     :last-child {

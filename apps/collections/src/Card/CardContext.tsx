@@ -24,41 +24,11 @@
 
  */
 
-import React, { FC, useContext } from 'react'
-import { CollectionContext } from '@looker/components'
-import { PresentationProps } from '../Presenter'
-import { ItemProps } from '../types'
-import { ContentCard } from '../../Card/ContentCard'
-import { CardGrid } from '../../Card/CardGrid'
+import { DensityRamp } from 'packages/components/src/List/types'
+import { createContext } from 'react'
 
-const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
-  href,
-  id,
-  title,
-  itemType,
-  description,
-  // detail,
-}) => {
-  return (
-    <ContentCard
-      overline={itemType}
-      description={description}
-      href={href && id ? href(id) : undefined}
-      id={String(id)}
-      // detail={detail}
-    >
-      {title}
-    </ContentCard>
-  )
+export type CardContextProps = {
+  density: DensityRamp
 }
 
-export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => {
-  const { density } = useContext(CollectionContext)
-  return (
-    <CardGrid density={density}>
-      {items.map((item, i) => (
-        <Item key={i} {...item} href={href} itemType={itemType} />
-      ))}
-    </CardGrid>
-  )
-}
+export const CardContext = createContext<CardContextProps>({ density: 0 })

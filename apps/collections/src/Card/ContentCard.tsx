@@ -28,11 +28,14 @@ import {
   CardContent,
   CardProps,
   Heading,
+  listItemDimensions,
   Paragraph,
   Truncate,
 } from '@looker/components'
-import React, { FC, ReactNode } from 'react'
+import { FontSizes } from '@looker/design-tokens'
+import React, { FC, ReactNode, useContext } from 'react'
 import { Link } from '../Link'
+import { CardContext } from './CardContext'
 import { CardItem } from './CardItem'
 
 type ContentCardProps = CardProps & {
@@ -61,13 +64,21 @@ export const ContentCard: FC<ContentCardProps> = ({
   detail,
   ...cardProps
 }) => {
+  const { density } = useContext(CardContext)
+  const { descriptionFontSize, labelFontSize, px, py } =
+    listItemDimensions(density)
+
   return (
     <CardItem {...cardProps}>
-      <CardContent>
+      <CardContent px={px} py={py}>
         <CardOverline>{overline}</CardOverline>
-        <CardLabel href={href}>{children}</CardLabel>
+        <CardLabel fontSize={labelFontSize} href={href}>
+          {children}
+        </CardLabel>
         <CardDetail>{detail}</CardDetail>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription fontSize={descriptionFontSize}>
+          {description}
+        </CardDescription>
       </CardContent>
     </CardItem>
   )
@@ -75,12 +86,14 @@ export const ContentCard: FC<ContentCardProps> = ({
 
 const CardLabel = ({
   children,
+  fontSize = 'medium',
   href,
 }: {
   children?: ReactNode
+  fontSize?: FontSizes
   href?: string
 }) => (
-  <Heading as="h2" fontSize="medium" fontWeight="semiBold">
+  <Heading as="h2" fontSize={fontSize} fontWeight="semiBold">
     <Truncate>
       {href ? (
         <Link visible target="blank" to={href}>
@@ -93,8 +106,13 @@ const CardLabel = ({
   </Heading>
 )
 
-const CardDescription = ({ children }: { children?: ReactNode }) =>
-  children ? <Paragraph fontSize="small">{children}</Paragraph> : null
+const CardDescription = ({
+  children,
+  fontSize = 'small',
+}: {
+  children?: ReactNode
+  fontSize?: FontSizes
+}) => (children ? <Paragraph fontSize={fontSize}>{children}</Paragraph> : null)
 
 const CardDetail = ({ children }: { children?: ReactNode }) =>
   children ? (

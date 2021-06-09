@@ -25,8 +25,15 @@
  */
 
 import { Grid } from '@looker/components'
+import { DensityRamp } from 'packages/components/src/List/types'
 import React, { FC } from 'react'
+import { CardContext } from './CardContext'
 
-export const CardGrid: FC = (props) => (
-  <Grid gap="large" px="xlarge" columns={3} {...props} />
+export const CardGrid: FC<{ density?: DensityRamp }> = ({
+  density = 0,
+  ...props
+}) => (
+  <CardContext.Provider value={{ density }}>
+    <Grid gap="large" px="xlarge" columns={3} {...props} />
+  </CardContext.Provider>
 )

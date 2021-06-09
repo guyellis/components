@@ -27,6 +27,7 @@
 import { ReactElement, ReactNode } from 'react'
 import { SelectConfig } from '../Collection'
 import { InputFiltersProps } from '../Form/Inputs/InputFilters'
+import { DensityRamp } from '../List/types'
 import { DataTableColumns } from './Column'
 
 export interface DataTableProps {
@@ -34,6 +35,7 @@ export interface DataTableProps {
   caption: string
   columns: DataTableColumns
   className?: string
+  density?: DensityRamp
 
   /**
    * Sort function provided by the developer

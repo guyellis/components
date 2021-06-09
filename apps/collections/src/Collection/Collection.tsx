@@ -30,8 +30,13 @@ import {
   CollectionContext,
   CollectionContextProps,
   SpaceVertical,
+  Button,
+  Popover,
+  PopoverContent,
+  Slider,
 } from '@looker/components'
-import React from 'react'
+import { DensityRamp } from 'packages/components/src/List/types'
+import React, { useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { PageHeader } from '../PageHeader/PageHeader'
 import { SupportedCollection } from '../supportedCollections'
@@ -40,7 +45,7 @@ import { PresentationType } from './types'
 
 type CollectionProps = SupportedCollection &
   PresentationProps &
-  CollectionContextProps
+  Omit<CollectionContextProps, 'density'>
 
 export const Collection = ({
   icon,
@@ -53,6 +58,7 @@ export const Collection = ({
   const history = useHistory()
   const { collection, presentation = 'list' } =
     useParams<{ collection: string; presentation?: PresentationType }>()
+  const [density, setDensity] = useState<DensityRamp>(0)
 
   const onChangePresentation = (newPresentation: string) => {
     switch (newPresentation) {
@@ -71,13 +77,39 @@ export const Collection = ({
     </ButtonToggle>
   )
 
+  // Can't nail down event parameter's type, revisit later
+  const onSliderChange = (event: any) => {
+    setDensity(event.target.value)
+  }
+
+  const densitySlider = (
+    <Popover
+      content={
+        <PopoverContent p="large">
+          <Slider
+            width="500px"
+            min={-3}
+            max={1}
+            value={density}
+            onChange={onSliderChange}
+          />
+        </PopoverContent>
+      }
+    >
+      <Button mr="large">Density Slider</Button>
+    </Popover>
+  )
+
   return (
-    <CollectionContext.Provider value={{ select }}>
+    <CollectionContext.Provider value={{ density, select }}>
       <SpaceVertical>
-        <PageHeader icon={icon} detail={presentationToggle}>
+        <PageHeader
+          icon={icon}
+          densitySlider={densitySlider}
+          detail={presentationToggle}
+        >
           {title}
         </PageHeader>
-
         <Presenter
           itemType={itemType}
           href={href}
