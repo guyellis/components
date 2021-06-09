@@ -81,7 +81,7 @@ export const Collection = ({
 
   // Can't nail down event parameter's type, revisit later
   const onSliderChange = (event: React.FormEvent<HTMLInputElement>) =>
-    setDensity(event.target.value)
+    setDensity(Number(event.currentTarget.value) as any as DensityRamp)
 
   const densitySlider = (
     <Popover
