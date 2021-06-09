@@ -41,7 +41,7 @@ export const ItemTarget = styled.div<ItemTargetProps>`
   display: flex;
   height: 100%;
   justify-content: center;
-  min-height: ${({ size }) => size || densityTarget};
+  min-height: ${({ size }) => size};
   min-width: ${({ size }) => size || densityTarget};
   width: ${({ size }) => size || densityTarget};
 `
