@@ -80,9 +80,8 @@ export const Collection = ({
   )
 
   // Can't nail down event parameter's type, revisit later
-  const onSliderChange = (event: any) => {
+  const onSliderChange = (event: React.FormEvent<HTMLInputElement>) =>
     setDensity(event.target.value)
-  }
 
   const densitySlider = (
     <Popover
@@ -98,7 +97,14 @@ export const Collection = ({
         </PopoverContent>
       }
     >
-      <IconButton icon={<FormatSize />} label="Density" />
+      <IconButton
+        toggle={density !== 1}
+        toggleBackground
+        shape="round"
+        size="medium"
+        icon={<FormatSize />}
+        label="Density"
+      />
     </Popover>
   )
 
@@ -106,8 +112,8 @@ export const Collection = ({
     <PageHeader
       detail={
         <Space>
-          {densitySlider}
           {presentationToggle}
+          {densitySlider}
         </Space>
       }
       icon={icon}
