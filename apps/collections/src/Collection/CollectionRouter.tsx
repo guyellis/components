@@ -24,12 +24,13 @@
 
  */
 
-import { Paragraph, useSelectManager } from '@looker/components'
+import { Box, Paragraph, Heading, useSelectManager } from '@looker/components'
 import React, { useEffect, useState } from 'react'
 import { getCoreSDK2 } from '@looker/extension-sdk-react'
 import { useParams } from 'react-router-dom'
 import { Looker40SDK } from '@looker/sdk'
 import { supportedCollections } from '../supportedCollections'
+import { Page, PageHeader } from '../Page'
 import { Collection } from './Collection'
 import { ItemProps } from './types'
 
@@ -76,6 +77,22 @@ export const CollectionRouter = () => {
   return supportedCollection && supportedCollection.endpoint ? (
     <Collection {...supportedCollection} items={items} select={selectConfig} />
   ) : (
-    <Paragraph color="critical">Collection type not yet implemented</Paragraph>
+    <Page header={<PageHeader>Collection not yet implemented</PageHeader>}>
+      <Box p="xxlarge">
+        <Paragraph
+          py="large"
+          textAlign="center"
+          style={{
+            fontSize: '16rem',
+            lineHeight: 1,
+          }}
+        >
+          😱
+        </Paragraph>
+        <Heading as="h1" fontSize="xxxxlarge" color="text3" textAlign="center">
+          Oh noes!
+        </Heading>
+      </Box>
+    </Page>
   )
 }

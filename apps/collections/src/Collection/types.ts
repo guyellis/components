@@ -29,6 +29,7 @@ export type PresentationType = typeof presentationTypes[number]
 
 export type ItemProps = {
   title?: string
+  name?: string
   description?: string
   id?: string | number
   href?: (id: string | number) => string

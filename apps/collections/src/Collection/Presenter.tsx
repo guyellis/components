@@ -33,7 +33,7 @@ import { ItemProps, PresentationType } from './types'
 
 export type PresentationProps = Pick<
   SupportedCollection,
-  'href' | 'itemType'
+  'actions' | 'href' | 'itemType'
 > & {
   items: ItemProps[]
 }

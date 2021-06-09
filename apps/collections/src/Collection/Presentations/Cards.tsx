@@ -30,6 +30,7 @@ import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 import { ContentCard } from '../../Card/ContentCard'
 import { CardGrid } from '../../Card/CardGrid'
+import { spreadItemProps } from '../spreadItemProps'
 
 const Item: FC<ItemProps & Pick<PresentationProps, 'itemType'>> = ({
   href,
@@ -57,7 +58,12 @@ export const Presenter: FC<PresentationProps> = ({ itemType, items, href }) => {
   return (
     <CardGrid density={density}>
       {items.map((item, i) => (
-        <Item key={i} {...item} href={href} itemType={itemType} />
+        <Item
+          key={i}
+          {...spreadItemProps(item)}
+          href={href}
+          itemType={itemType}
+        />
       ))}
     </CardGrid>
   )

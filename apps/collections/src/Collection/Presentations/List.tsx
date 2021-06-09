@@ -25,30 +25,59 @@
  */
 
 import styled from 'styled-components'
-import { CollectionContext, List, ListItem, Link } from '@looker/components'
+import {
+  CollectionContext,
+  List,
+  ListItem,
+  Link,
+  Menu,
+  MenuItem,
+  IconButton,
+} from '@looker/components'
+import { MoreVert } from '@styled-icons/material-outlined/MoreVert'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, MouseEvent, useContext } from 'react'
+import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
+import { spreadItemProps } from '../spreadItemProps'
+import { SupportedCollection } from '../../supportedCollections'
 
-const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
-  const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
+type PresentItemProps = ItemProps & Pick<SupportedCollection, 'actions'>
 
-    // @TODO: Think of a better fallback URL
-    const fallbackUrl = 'https://google.com'
-    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
-  }
+const ActionMenus: FC<PresentItemProps> = ({ actions, ...itemProps }) => {
+  if (!actions) return null
+
+  const items = actions.map(({ callback, icon, title }, i) => (
+    <MenuItem key={i} icon={icon} onClick={() => callback(itemProps)}>
+      {title}
+    </MenuItem>
+  ))
 
   return (
-    <ListItem id={String(id)} onClick={() => onSelect && onSelect(String(id))}>
+    <Menu content={items}>
+      <IconButton label="Actions" icon={<MoreVert />} />
+    </Menu>
+  )
+}
+
+const Item: FC<PresentItemProps> = (props) => {
+  const { href, id, onSelect, title } = props
+  const { extensionSDK } = useContext(ExtensionContext2)
+  const handleClick = () => id && href && extensionSDK.updateLocation(href(id))
+
+  return (
+    <ListItem
+      detail={<ActionMenus {...props} />}
+      id={String(id)}
+      onClick={() => onSelect && onSelect(String(id))}
+    >
       <Link onClick={handleClick}>{title}</Link>
     </ListItem>
   )
 }
 
 const PresenterInternal: FC<PresentationProps> = ({
+  actions,
   items,
   href,
   ...props
@@ -58,7 +87,13 @@ const PresenterInternal: FC<PresentationProps> = ({
   return (
     <List color="key" density={density} select={select} width="100%" {...props}>
       {items.map((item, i) => (
-        <Item key={i} {...item} href={href} onSelect={select?.onSelect} />
+        <Item
+          key={i}
+          {...spreadItemProps(item)}
+          href={href}
+          actions={actions}
+          onSelect={select?.onSelect}
+        />
       ))}
     </List>
   )

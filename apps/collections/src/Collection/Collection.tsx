@@ -49,6 +49,7 @@ type CollectionProps = SupportedCollection &
   Omit<CollectionContextProps, 'density'>
 
 export const Collection = ({
+  actions,
   icon,
   title,
   itemType,
@@ -119,6 +120,7 @@ export const Collection = ({
     <CollectionContext.Provider value={{ density, select }}>
       <Page header={header}>
         <Presenter
+          actions={actions}
           itemType={itemType}
           href={href}
           presentation={presentation}

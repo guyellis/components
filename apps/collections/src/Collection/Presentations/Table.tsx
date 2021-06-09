@@ -36,6 +36,7 @@ import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
+import { spreadItemProps } from '../spreadItemProps'
 
 const Item: FC<ItemProps> = ({
   href,
@@ -89,7 +90,12 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
       select={select}
     >
       {items.map((item, i) => (
-        <Item key={i} href={href} onSelect={select?.onSelect} {...item} />
+        <Item
+          key={i}
+          href={href}
+          onSelect={select?.onSelect}
+          {...spreadItemProps(item)}
+        />
       ))}
     </DataTable>
   )

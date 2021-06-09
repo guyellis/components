@@ -27,18 +27,28 @@ import { IconType } from '@looker/components/src'
 import { Dashboard } from '@styled-icons/material-outlined/Dashboard'
 import { Poll } from '@styled-icons/material-outlined/Poll'
 import { Bookmarks } from '@styled-icons/material-outlined/Bookmarks'
+import { TravelExplore } from '@styled-icons/material-outlined'
 import React from 'react'
 import { IError, Looker40SDK } from '@looker/sdk'
 
 /* eslint-disable camelcase */
 import {
   all_dashboards,
+  all_groups,
   all_looks,
+  all_lookml_models,
   search_boards,
 } from '@looker/sdk/lib/4.0/funcs'
 /* eslint-enable camelcase */
 import type { SDKResponse } from '@looker/sdk-rtl'
 import { ItemProps } from './Collection/types'
+
+export type CollectionAction = {
+  title: string
+  icon?: IconType
+  callback: (item: ItemProps) => void
+  target?: 'blank'
+}
 
 export type SupportedCollection = {
   title: string
@@ -46,6 +56,7 @@ export type SupportedCollection = {
   icon?: IconType
   itemType: string
   endpoint?: (sdk: Looker40SDK) => Promise<SDKResponse<ItemProps[], IError>>
+  actions?: CollectionAction[]
 }
 
 export type SupportedCollections = SupportedCollection[]
@@ -53,6 +64,14 @@ export type SupportedCollections = SupportedCollection[]
 export const supportedCollections: SupportedCollection[] = [
   {
     // Ideally, this would just be the all_boards endpoint but that's bugged atm
+    actions: [
+      {
+        callback: (item: ItemProps) => {
+          alert(`Let's view ${item.title}`)
+        },
+        title: 'View',
+      },
+    ],
     endpoint: (sdk: Looker40SDK) => search_boards(sdk, { title: '%' }),
     href: (id: string | number) => `/boards/${id}`,
     icon: <Bookmarks />,
@@ -72,5 +91,18 @@ export const supportedCollections: SupportedCollection[] = [
     icon: <Poll />,
     itemType: 'look',
     title: 'Looks',
+  },
+  // {
+  //   endpoint: (sdk: Looker40SDK) => all_groups(sdk, { fields: '' }),
+  //   // icon:
+  //   itemType: 'group',
+  //   title: 'Groups',
+  // },
+  {
+    endpoint: all_lookml_models,
+    // href: (id: string | number) => `/looks/${id}`,
+    icon: <TravelExplore />,
+    itemType: 'model',
+    title: 'Models',
   },
 ]
