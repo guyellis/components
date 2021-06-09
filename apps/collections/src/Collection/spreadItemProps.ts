@@ -24,9 +24,14 @@
 
  */
 
+import { ItemProps } from './types'
+
 export const spreadItemProps = (item: ItemProps) => {
+  const title = item.title || item.name
+  const id = item.id || title
   return {
     ...item,
-    title: item.title || item.name,
+    id,
+    title,
   }
 }
