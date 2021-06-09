@@ -34,6 +34,8 @@ import {
   PopoverContent,
   Slider,
   Space,
+  ButtonOutline,
+  SpaceVertical,
 } from '@looker/components'
 import { FormatSize } from '@styled-icons/material-outlined/FormatSize'
 import { DensityRamp } from 'packages/components/src/List/types'
@@ -87,13 +89,53 @@ export const Collection = ({
     <Popover
       content={
         <PopoverContent p="large">
-          <Slider
-            width="500px"
-            min={-3}
-            max={1}
-            value={density}
-            onChange={onSliderChange}
-          />
+          <SpaceVertical gap="large">
+            <Space>
+              <Slider
+                min={-3}
+                max={1}
+                value={density}
+                onChange={onSliderChange}
+              />
+            </Space>
+            <Space>
+              <ButtonOutline
+                size="xxsmall"
+                onClick={() => setDensity(-3)}
+                className={density === -3 ? 'active' : undefined}
+              >
+                Tiny
+              </ButtonOutline>
+              <ButtonOutline
+                size="xsmall"
+                onClick={() => setDensity(-2)}
+                className={density === -2 ? 'active' : undefined}
+              >
+                Smaller
+              </ButtonOutline>
+              <ButtonOutline
+                size="small"
+                onClick={() => setDensity(-1)}
+                className={density === -1 ? 'active' : undefined}
+              >
+                Small
+              </ButtonOutline>
+              <ButtonOutline
+                size="medium"
+                onClick={() => setDensity(0)}
+                className={density === 0 ? 'active' : undefined}
+              >
+                Looker-ish
+              </ButtonOutline>
+              <ButtonOutline
+                size="large"
+                onClick={() => setDensity(-3)}
+                className={density === 1 ? 'active' : undefined}
+              >
+                Google Material
+              </ButtonOutline>
+            </Space>
+          </SpaceVertical>
         </PopoverContent>
       }
     >
