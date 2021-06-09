@@ -33,19 +33,21 @@ import {
   Link,
 } from '@looker/components'
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
-import React, { FC, MouseEvent, useContext } from 'react'
+import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
 import { ItemProps } from '../types'
 
-const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
+const Item: FC<ItemProps> = ({
+  href,
+  id,
+  onSelect,
+  title,
+  description,
+  // icon,
+}) => {
   const { extensionSDK } = useContext(ExtensionContext2)
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
-
-    // @TODO: Think of a better fallback URL
-    const fallbackUrl = 'https://google.com'
-    extensionSDK.updateLocation(id && href ? href(id) : fallbackUrl)
-  }
+  const handleClick = () =>
+    id && href ? extensionSDK.updateLocation(href(id)) : null
 
   return (
     <DataTableItem
@@ -53,10 +55,10 @@ const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
       id={id ? String(id) : 'no_id'}
       onClick={() => onSelect && onSelect(String(id))}
     >
-      <DataTableCell>{id}</DataTableCell>
-      <DataTableCell>
+      <DataTableCell description={description}>
         <Link onClick={handleClick}>{title}</Link>
       </DataTableCell>
+      <DataTableCell>{id}</DataTableCell>
     </DataTableItem>
   )
 }
@@ -64,16 +66,16 @@ const Item: FC<ItemProps> = ({ href, id, onSelect, title }) => {
 export const Presenter: FC<PresentationProps> = ({ items, href }) => {
   const columns: DataTableColumns = [
     {
+      // canSort: true,
+      id: 'title',
+      size: 'large',
+      title: 'Title',
+    },
+    {
+      // canSort: true,
       id: 'id',
       size: 'small',
       title: 'ID',
-      type: 'string',
-    },
-    {
-      id: 'title',
-      size: 'nowrap',
-      title: 'Title',
-      type: 'string',
     },
   ]
 

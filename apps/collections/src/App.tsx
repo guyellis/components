@@ -35,10 +35,10 @@ import { CollectionRouter } from './Collection'
 export const App = () => {
   return (
     <Page hasAside fixed>
-      <Aside py="large" pr="xlarge" width="navigation">
+      <Aside py="large" pr="large" width="navigation">
         <Navigation collections={supportedCollections} />
       </Aside>
-      <Section main borderLeft="ui2">
+      <Section main borderLeft="ui2" backgroundColor="ui1">
         <Route exact path="/">
           <HomePage collections={supportedCollections} />
         </Route>

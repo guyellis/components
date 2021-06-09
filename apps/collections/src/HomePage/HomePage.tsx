@@ -29,7 +29,7 @@ import { Card, CardContent, Heading } from '@looker/components'
 import { Home } from '@styled-icons/material-outlined/Home'
 import { SupportedCollections } from '../supportedCollections'
 import { Link } from '../Link'
-import { PageHeader } from '../PageHeader/PageHeader'
+import { PageHeader } from '../Page'
 import { CardGrid } from '../Card/CardGrid'
 import { CardBanner } from './CardBanner'
 

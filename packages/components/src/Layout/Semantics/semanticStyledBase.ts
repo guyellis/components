@@ -29,14 +29,18 @@ import {
   padding,
   PaddingProps,
   reset,
+  color,
+  ColorProps,
 } from '@looker/design-tokens'
 import { css } from 'styled-components'
 
 export interface SemanticLayoutBase
   extends PaddingProps,
+    ColorProps,
     CompatibleHTMLProps<HTMLElement> {}
 
 export const semanticLayoutCSS = css`
   ${reset}
   ${padding}
+  ${color}
 `

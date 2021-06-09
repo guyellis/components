@@ -24,31 +24,31 @@
 
  */
 
-import { Icon, Heading, Space, IconType } from '@looker/components'
+import { Header, Layout, Section } from '@looker/components'
 import React, { FC, ReactNode } from 'react'
+import styled from 'styled-components'
 
-type PageHeaderProps = {
-  icon?: IconType
-  densitySlider?: ReactNode
-  detail?: ReactNode
+type PageProps = {
+  header: ReactNode
 }
 
-export const PageHeader: FC<PageHeaderProps> = ({
-  icon,
-  children,
-  densitySlider,
-  detail,
-}) => (
-  <Space between p="xlarge">
-    <Space gap="xsmall" width="auto">
-      {icon && (
-        <Icon color="key" icon={icon} display="inline-block" size="large" />
-      )}
-      <Heading fontSize="xxxxlarge">{children}</Heading>
-    </Space>
-    <div>
-      {densitySlider}
-      {detail}
-    </div>
-  </Space>
+const PageInternal: FC<PageProps> = ({ children, header, ...props }) => (
+  <Layout
+    bg="background"
+    borderRadius="medium"
+    border="ui2"
+    mx="xxlarge"
+    my="xlarge"
+    // fixed
+    {...props}
+  >
+    <Header borderBottom="ui2">{header}</Header>
+    <Section>{children}</Section>
+  </Layout>
 )
+
+export const Page = styled(PageInternal)`
+  height: calc(
+    100% - ${({ theme: { space } }) => `${space.xlarge} - ${space.xlarge}`}
+  );
+`

@@ -27,12 +27,19 @@
 import React, { forwardRef, Ref } from 'react'
 import { CompatibleHTMLProps } from '@looker/design-tokens'
 import styled, { css } from 'styled-components'
+import { margin, MarginProps } from 'styled-system'
 import { simpleLayoutCSS, SimpleLayoutProps } from '../../utils/simple'
 import { OverflowShadow, useOverflow } from '../../../utils'
 import { Section } from '../Section'
+import {
+  borderHelper,
+  SemanticBorderProps,
+} from '../utils/semanticBorderHelper'
 
 export interface LayoutProps
   extends SimpleLayoutProps,
+    MarginProps,
+    SemanticBorderProps,
     CompatibleHTMLProps<HTMLElement> {
   /**
    * fixed position for header and footer
@@ -69,6 +76,8 @@ LayoutLayout.displayName = 'LayoutLayout'
 
 export const Layout = styled(LayoutLayout)`
   ${simpleLayoutCSS}
+  ${margin}
+  ${borderHelper}
   display: flex;
   flex: 1 1 auto;
   overflow: ${({ fixed }) => (fixed ? 'hidden' : 'auto')};

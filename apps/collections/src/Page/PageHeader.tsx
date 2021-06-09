@@ -24,52 +24,22 @@
 
  */
 
-import { css } from 'styled-components'
-import {
-  display,
-  DisplayProps,
-  layout,
-  LayoutProps,
-  space,
-  SpaceProps,
-  size,
-  SizeProps,
-  overflow,
-  OverflowProps,
-  verticalAlign,
-  VerticalAlignProps,
-} from '@looker/design-tokens'
-import {
-  color,
-  borderRadius,
-  BorderRadiusProps,
-  ColorProps,
-} from 'styled-system'
+import { Icon, Heading, Space, IconType } from '@looker/components'
+import React, { FC, ReactNode } from 'react'
 
-export interface SimpleLayoutProps
-  extends ColorProps,
-    BorderRadiusProps,
-    LayoutProps,
-    SpaceProps {}
+type PageHeaderProps = {
+  icon?: IconType
+  detail?: ReactNode
+}
 
-export const simpleLayoutCSS = css`
-  ${layout}
-  ${space}
-  ${color}
-  ${borderRadius}
-`
-
-export interface SizeSimpleLayoutProps
-  extends SpaceProps,
-    DisplayProps,
-    OverflowProps,
-    SizeProps,
-    VerticalAlignProps {}
-
-export const sizeSimpleLayoutCSS = css`
-  ${size}
-  ${space}
-  ${overflow}
-  ${verticalAlign}
-  ${display}
-`
+export const PageHeader: FC<PageHeaderProps> = ({ icon, children, detail }) => (
+  <Space between py="medium" px="xlarge">
+    <Space gap="xsmall" width="auto">
+      {icon && (
+        <Icon color="key" icon={icon} display="inline-block" size="large" />
+      )}
+      <Heading fontSize="xxlarge">{children}</Heading>
+    </Space>
+    <div>{detail}</div>
+  </Space>
+)

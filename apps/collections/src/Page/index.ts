@@ -24,52 +24,5 @@
 
  */
 
-import { css } from 'styled-components'
-import {
-  display,
-  DisplayProps,
-  layout,
-  LayoutProps,
-  space,
-  SpaceProps,
-  size,
-  SizeProps,
-  overflow,
-  OverflowProps,
-  verticalAlign,
-  VerticalAlignProps,
-} from '@looker/design-tokens'
-import {
-  color,
-  borderRadius,
-  BorderRadiusProps,
-  ColorProps,
-} from 'styled-system'
-
-export interface SimpleLayoutProps
-  extends ColorProps,
-    BorderRadiusProps,
-    LayoutProps,
-    SpaceProps {}
-
-export const simpleLayoutCSS = css`
-  ${layout}
-  ${space}
-  ${color}
-  ${borderRadius}
-`
-
-export interface SizeSimpleLayoutProps
-  extends SpaceProps,
-    DisplayProps,
-    OverflowProps,
-    SizeProps,
-    VerticalAlignProps {}
-
-export const sizeSimpleLayoutCSS = css`
-  ${size}
-  ${space}
-  ${overflow}
-  ${verticalAlign}
-  ${display}
-`
+export { Page } from './Page'
+export { PageHeader } from './PageHeader'

@@ -29,16 +29,17 @@ import {
   ButtonToggle,
   CollectionContext,
   CollectionContextProps,
-  SpaceVertical,
-  Button,
+  IconButton,
   Popover,
   PopoverContent,
   Slider,
+  Space,
 } from '@looker/components'
+import { FormatSize } from '@styled-icons/material-outlined/FormatSize'
 import { DensityRamp } from 'packages/components/src/List/types'
 import React, { useState } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { PageHeader } from '../PageHeader/PageHeader'
+import { Page, PageHeader } from '../Page'
 import { SupportedCollection } from '../supportedCollections'
 import { PresentationProps, Presenter } from './Presenter'
 import { PresentationType } from './types'
@@ -96,27 +97,34 @@ export const Collection = ({
         </PopoverContent>
       }
     >
-      <Button mr="large">Density Slider</Button>
+      <IconButton icon={<FormatSize />} label="Density" />
     </Popover>
+  )
+
+  const header = (
+    <PageHeader
+      detail={
+        <Space>
+          {densitySlider}
+          {presentationToggle}
+        </Space>
+      }
+      icon={icon}
+    >
+      {title}
+    </PageHeader>
   )
 
   return (
     <CollectionContext.Provider value={{ density, select }}>
-      <SpaceVertical>
-        <PageHeader
-          icon={icon}
-          densitySlider={densitySlider}
-          detail={presentationToggle}
-        >
-          {title}
-        </PageHeader>
+      <Page header={header}>
         <Presenter
           itemType={itemType}
           href={href}
           presentation={presentation}
           items={items}
         />
-      </SpaceVertical>
+      </Page>
     </CollectionContext.Provider>
   )
 }
