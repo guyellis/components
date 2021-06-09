@@ -57,7 +57,7 @@ const Item: FC<ItemProps> = ({
       onClick={() => onSelect && onSelect(String(id))}
     >
       <DataTableCell description={description}>
-        <Link onClick={handleClick}>{title}</Link>
+        {href ? <Link onClick={handleClick}>{title}</Link> : title}
       </DataTableCell>
       <DataTableCell>{id}</DataTableCell>
     </DataTableItem>

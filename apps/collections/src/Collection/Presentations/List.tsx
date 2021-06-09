@@ -61,7 +61,7 @@ const ActionMenus: FC<PresentItemProps> = ({ actions, ...itemProps }) => {
 }
 
 const Item: FC<PresentItemProps> = (props) => {
-  const { href, id, onSelect, title } = props
+  const { description, href, id, onSelect, title } = props
   const { extensionSDK } = useContext(ExtensionContext2)
   const handleClick = () => id && href && extensionSDK.updateLocation(href(id))
 
@@ -70,8 +70,9 @@ const Item: FC<PresentItemProps> = (props) => {
       detail={<ActionMenus {...props} />}
       id={String(id)}
       onClick={() => onSelect && onSelect(String(id))}
+      description={description}
     >
-      <Link onClick={handleClick}>{title}</Link>
+      {href ? <Link onClick={handleClick}>{title}</Link> : title}
     </ListItem>
   )
 }
