@@ -79,6 +79,14 @@ export const supportedCollections: SupportedCollection[] = [
     title: 'Boards',
   },
   {
+    actions: [
+      {
+        callback: (item: ItemProps) => {
+          alert(`Let's view ${item.title}`)
+        },
+        title: 'View',
+      },
+    ],
     endpoint: all_dashboards,
     href: (id: string | number) => `/dashboards-next/${id}`,
     icon: <Dashboard />,

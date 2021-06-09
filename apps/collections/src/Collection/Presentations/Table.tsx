@@ -27,6 +27,7 @@
 import {
   CollectionContext,
   DataTable,
+  DataTableAction,
   DataTableCell,
   DataTableColumns,
   DataTableItem,
@@ -35,26 +36,29 @@ import {
 import { ExtensionContext2 } from '@looker/extension-sdk-react'
 import React, { FC, useContext } from 'react'
 import { PresentationProps } from '../Presenter'
-import { ItemProps } from '../types'
 import { spreadItemProps } from '../spreadItemProps'
+import { PresentItemProps } from './List'
 
-const Item: FC<ItemProps> = ({
-  href,
-  id,
-  onSelect,
-  title,
-  description,
-  // icon,
-}) => {
+const Item: FC<PresentItemProps> = (props) => {
+  const { actions, href, id, onSelect, title, description } = props
   const { extensionSDK } = useContext(ExtensionContext2)
   const handleClick = () =>
     id && href ? extensionSDK.updateLocation(href(id)) : null
+
+  const tableActions =
+    actions &&
+    actions.map(({ callback, icon, title }, i) => (
+      <DataTableAction key={i} icon={icon} onClick={() => callback(props)}>
+        {title}
+      </DataTableAction>
+    ))
 
   return (
     <DataTableItem
       key={id}
       id={id ? String(id) : 'no_id'}
       onClick={() => onSelect && onSelect(String(id))}
+      actions={tableActions}
     >
       <DataTableCell description={description}>
         {href ? <Link onClick={handleClick}>{title}</Link> : title}
@@ -64,7 +68,7 @@ const Item: FC<ItemProps> = ({
   )
 }
 
-export const Presenter: FC<PresentationProps> = ({ items, href }) => {
+export const Presenter: FC<PresentationProps> = ({ actions, items, href }) => {
   const columns: DataTableColumns = [
     {
       // canSort: true,
@@ -92,6 +96,7 @@ export const Presenter: FC<PresentationProps> = ({ items, href }) => {
       {items.map((item, i) => (
         <Item
           key={i}
+          actions={actions}
           href={href}
           onSelect={select?.onSelect}
           {...spreadItemProps(item)}

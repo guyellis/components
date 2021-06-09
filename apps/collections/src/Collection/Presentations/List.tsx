@@ -42,7 +42,7 @@ import { ItemProps } from '../types'
 import { spreadItemProps } from '../spreadItemProps'
 import { SupportedCollection } from '../../supportedCollections'
 
-type PresentItemProps = ItemProps & Pick<SupportedCollection, 'actions'>
+export type PresentItemProps = ItemProps & Pick<SupportedCollection, 'actions'>
 
 const ActionMenus: FC<PresentItemProps> = ({ actions, ...itemProps }) => {
   if (!actions) return null
