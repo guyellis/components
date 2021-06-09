@@ -60,7 +60,7 @@ export const Collection = ({
   const history = useHistory()
   const { collection, presentation = 'list' } =
     useParams<{ collection: string; presentation?: PresentationType }>()
-  const [density, setDensity] = useState<DensityRamp>(0)
+  const [density, setDensity] = useState<DensityRamp>(1)
 
   const onChangePresentation = (newPresentation: string) => {
     switch (newPresentation) {

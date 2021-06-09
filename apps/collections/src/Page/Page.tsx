@@ -43,7 +43,9 @@ const PageInternal: FC<PageProps> = ({ children, header, ...props }) => (
     {...props}
   >
     <Header borderBottom="ui2">{header}</Header>
-    <Section>{children}</Section>
+    <Section py="small" px="xlarge">
+      {children}
+    </Section>
   </Layout>
 )
 

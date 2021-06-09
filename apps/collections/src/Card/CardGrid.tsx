@@ -24,16 +24,29 @@
 
  */
 
-import { Grid } from '@looker/components'
+import { Breakpoint, Grid, GridProps } from '@looker/components'
 import { DensityRamp } from 'packages/components/src/List/types'
 import React, { FC } from 'react'
 import { CardContext } from './CardContext'
+
+const sharedProps: Pick<GridProps, 'gap' | 'py'> = {
+  gap: 'large',
+  py: 'medium',
+}
 
 export const CardGrid: FC<{ density?: DensityRamp }> = ({
   density = 0,
   ...props
 }) => (
   <CardContext.Provider value={{ density }}>
-    <Grid gap="large" px="xlarge" columns={2} {...props} />
+    <Breakpoint show="mobile">
+      <Grid columns={1} {...props} {...sharedProps} />
+    </Breakpoint>
+    <Breakpoint show={['tablet', 'laptop']}>
+      <Grid {...props} {...sharedProps} />
+    </Breakpoint>
+    <Breakpoint show={['laptop', undefined]}>
+      <Grid columns={3} {...props} {...sharedProps} />
+    </Breakpoint>
   </CardContext.Provider>
 )
