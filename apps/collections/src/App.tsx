@@ -24,7 +24,22 @@
 
  */
 
-import { Aside, Page, Section } from '@looker/components'
+import {
+  Aside,
+  Header,
+  Layout,
+  Page,
+  Section,
+  Space,
+  IconButton,
+  Heading,
+  useToggle,
+} from '@looker/components'
+import { Menu } from '@styled-icons/material-outlined/Menu'
+import { Settings } from '@styled-icons/material-outlined/Settings'
+import { Search } from '@styled-icons/material-outlined/Search'
+import { AccountCircle } from '@styled-icons/material-outlined/AccountCircle'
+import { LiveHelp } from '@styled-icons/material-outlined/LiveHelp'
 import React from 'react'
 import { Route } from 'react-router-dom'
 import { Navigation } from './Navigation'
@@ -33,19 +48,43 @@ import { HomePage } from './HomePage'
 import { CollectionRouter } from './Collection'
 
 export const App = () => {
+  const { value: showAside, toggle } = useToggle(true)
+
   return (
-    <Page hasAside fixed>
-      <Aside py="large" pr="large" width="navigation">
-        <Navigation collections={supportedCollections} />
-      </Aside>
-      <Section main borderLeft="ui2" backgroundColor="ui1">
-        <Route exact path="/">
-          <HomePage collections={supportedCollections} />
-        </Route>
-        <Route path="/:collection/:presentation?">
-          <CollectionRouter />
-        </Route>
-      </Section>
+    <Page fixed>
+      <Header borderBottom="ui2" height="4rem">
+        <Space between px="small">
+          <Space gap="xxsmall">
+            <IconButton
+              onClick={toggle}
+              toggle={showAside}
+              size="large"
+              icon={<Menu />}
+              label="Toggle Menu"
+            />
+            <Heading>Collector</Heading>
+          </Space>
+          <Space gap="none" justify="end">
+            <IconButton size="large" icon={<Search />} label="Search" />
+            <IconButton size="large" icon={<Settings />} label="Settings" />
+            <IconButton size="large" icon={<LiveHelp />} label="Help" />
+            <IconButton size="large" icon={<AccountCircle />} label="Account" />
+          </Space>
+        </Space>
+      </Header>
+      <Layout hasAside fixed>
+        <Aside collapse={!showAside} py="large" pr="large" width="navigation">
+          <Navigation collections={supportedCollections} />
+        </Aside>
+        <Section main borderLeft="ui2" backgroundColor="ui1">
+          <Route exact path="/">
+            <HomePage collections={supportedCollections} />
+          </Route>
+          <Route path="/:collection/:presentation?">
+            <CollectionRouter />
+          </Route>
+        </Section>
+      </Layout>
     </Page>
   )
 }
