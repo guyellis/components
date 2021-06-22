@@ -25,8 +25,10 @@
  */
 
 import React from 'react'
+import styled from 'styled-components'
 import {
   Code,
+  Table,
   TableBody,
   TableDataCell,
   TableHead,
@@ -35,8 +37,15 @@ import {
   Text,
 } from '@looker/components'
 import { FontWeights, FontSizes } from '@looker/design-tokens'
-import { DocTable } from '../../../components'
 
+const DocTable = styled(Table)`
+font-size: ${({ theme }) => theme.fontSizes.small};
+margin-bottom: ${({ theme }) => theme.space.xlarge};
+
+${Code} {
+  color: ${(props) => props.theme.colors.key};
+}
+`
 const specimen =
   "Roboto is the typographic base for the tone and content of Looker's design system"
 const typeFamily: Array<{ weight: FontWeights; value: string }> = [

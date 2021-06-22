@@ -25,15 +25,27 @@
  */
 
 import React from 'react'
+import styled from 'styled-components'
+
 import {
   Code,
   TableHead,
+  Table
   TableRow,
   TableHeaderCell,
   TableBody,
   TableDataCell,
 } from '@looker/components'
-import { DocTable } from '../../../../components'
+
+ const DocTable = styled(Table)`
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  margin-bottom: ${({ theme }) => theme.space.xlarge};
+
+  ${Code} {
+    color: ${(props) => props.theme.colors.key};
+  }
+`
+
 
 export const ItemDistribution = () => (
   <DocTable>
