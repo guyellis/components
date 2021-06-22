@@ -3,13 +3,6 @@ title: Flex & FlexItem
 github: Layout/Flex
 ---
 
-import {
-  AdjustingIndividualAlignment,
-  AligningItems,
-  AligningContent,
-  FlexItemExample,
-  ItemDistribution,
-} from './demos'
 
 The `<Flex />` component creates a flex container for you to place `<FlexItem />` components inside. It lets you utilize [flex box](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout) to create a wide variety of layouts, with powerful alignment, directional, and space distribution abilities.
 
@@ -60,7 +53,6 @@ You can change the layout direction and order of flex children by using the `fle
 
 The `<Flex>` component allows you to control how its children are distributed within its container. Using the `justifyContent` property you can adjust the distribution of the children. Below is a table with all the justify options:
 
-<ItemDistribution />
 
 Here is a visual example of how using `justifyContent` affects the distribution of items in a `<Flex />` component.
 
@@ -137,7 +129,6 @@ Here is a visual example of how using `justifyContent` affects the distribution 
 
 Flex box allows for quickly adjusting the alignment of items inside the flex container. Below are available alignment types:
 
-<AligningItems />
 
 Here is an example of using `alignItems` to adjust how items are aligned within the flex container.
 
@@ -218,7 +209,6 @@ Here is an example of using `alignItems` to adjust how items are aligned within 
 
 If you have multiple rows of flex items, the `alignContent` property determines how the rows are distributed within the flex container.
 
-<AligningContent />
 
 ```jsx
 <Flex justifyContent="space-between">
@@ -476,8 +466,6 @@ The `flexBasis` property defines the flex-items' default size before the remaini
 The `flex` property is a shorthand for `flex-grow`, `flex-shrink`, and `flex-basis` properties. It specifies how a flex item will grow or shrink to fit the space in its flex container.
 
 **Note**: The `flex` syntax can be a bit confusing, if you need a more detail set of examples check out this [MDN flex overview](https://developer.mozilla.org/en-US/docs/Web/CSS/flex).
-
-<FlexItemExample />
 
 ### Flex Grow Example
 
