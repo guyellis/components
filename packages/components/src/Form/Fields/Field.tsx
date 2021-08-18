@@ -182,6 +182,8 @@ export const Field = styled(FieldLayout)<FieldPropsInternal>`
   grid-template-columns: ${({ inline }) => (inline ? '150px 1fr' : undefined)};
   height: fit-content;
   justify-content: space-between;
+  padding-top: ${({ theme: { space } }) => space.xsmall};
+  position: relative;
   width: ${({ autoResize }) => (autoResize ? 'fit-content' : '100%')};
   ${width}
 
@@ -202,7 +204,11 @@ export const Field = styled(FieldLayout)<FieldPropsInternal>`
   }
 
   & > ${Label} {
+    font-size: 14px;
+    font-weight: normal;
     grid-area: label;
+    position: absolute;
+    transform: translate(8px, 10px);
     ${({ inline }) => fieldLabelCSS(inline)}
   }
 
