@@ -49,7 +49,7 @@ const FieldCheckboxLayout = forwardRef(
       >
         <Checkbox
           {...omitFieldProps(props)}
-          aria-describedby={`describedby-${id}`}
+          aria-describedby={`${id}-describedby`}
           id={id}
           validationType={
             (validationMessage && validationMessage.type) ||

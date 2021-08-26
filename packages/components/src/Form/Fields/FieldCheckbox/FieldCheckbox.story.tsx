@@ -39,7 +39,7 @@ const Template: Story<FieldCheckboxProps> = (args) => (
 
 export const Basic = Template.bind({})
 Basic.args = {
-  id: 'id',
+  id: 'cool-id',
   label: 'Example Field',
   name: 'thumbsUp',
 }

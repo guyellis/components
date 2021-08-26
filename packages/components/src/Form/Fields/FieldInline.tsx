@@ -27,7 +27,7 @@
 import type { FC } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { Label } from '../Label/Label'
+import { Space, SpaceVertical } from '../../Layout'
 import { Paragraph } from '../../Text'
 import { ValidationMessage } from '../ValidationMessage/ValidationMessage'
 import { Truncate } from '../../Truncate'
@@ -54,33 +54,31 @@ const FieldInlineLayout: FC<FieldInlinePropsInternal> = ({
   validationMessage,
 }) => {
   return (
-    <label className={className} htmlFor={id}>
-      <InputArea>{children}</InputArea>
-      <Label as="span">
-        <Truncate>{label}</Truncate>
-        {required && <RequiredStar />}
-      </Label>
-      {detail && <FieldDetail>{detail}</FieldDetail>}
-      <MessageArea id={`${id}-describedby`}>
-        {description && <FieldDescription>{description}</FieldDescription>}
-        {validationMessage ? (
-          <ValidationMessage {...validationMessage} />
-        ) : null}
-      </MessageArea>
-    </label>
+    <Space gap="u2" align="start" className={className}>
+      {children}
+      <SpaceVertical className={className} gap="u1">
+        <Space gap="u2" align="start">
+          <label htmlFor={id}>
+            <Truncate>{label}</Truncate>
+            {required && <RequiredStar />}
+          </label>
+          {detail && <FieldDetail>{detail}</FieldDetail>}
+        </Space>
+        <div id={`${id}-describedby`}>
+          {description && <FieldDescription>{description}</FieldDescription>}
+          {validationMessage ? (
+            <ValidationMessage {...validationMessage} />
+          ) : null}
+        </div>
+      </SpaceVertical>
+    </Space>
   )
 }
 
 const FieldDetail = styled(Paragraph)`
   color: ${({ theme }) => theme.colors.text2};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
-  grid-column: 3;
-  grid-row: 1;
-  /* stylelint-disable */
-  -ms-grid-column: 3;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 1;
-  /* stylelint-enable */
+  line-height: ${({ theme }) => theme.lineHeights.xsmall};
   padding-left: ${({ theme }) => theme.space.u2};
 `
 
@@ -88,58 +86,13 @@ const FieldDescription = styled(Paragraph)`
   color: ${({ theme }) => theme.colors.text2};
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   line-height: ${({ theme }) => theme.lineHeights.xsmall};
-  padding-bottom: ${({ theme }) => theme.space.u05};
-  padding-top: ${({ theme }) => theme.space.u05};
-`
-
-const InputArea = styled.div`
-  grid-column: 1;
-  grid-row: 1;
-  padding-right: ${({ theme: { space } }) => space.u2};
-  /* stylelint-disable */
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 1;
-  -ms-grid-row: 1;
-  /* stylelint-enable */
-`
-
-const MessageArea = styled.div`
-  grid-column: 2;
-  grid-column-end: span 2;
-  grid-row: 2;
-  /* stylelint-disable */
-  -ms-grid-column: 2;
-  -ms-grid-column-end: span 2;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
-  /* stylelint-enable */
+  padding-bottom: ${({ theme }) => theme.space.u1};
 `
 
 export const FieldInline = styled(FieldInlineLayout)`
-  align-items: center;
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  justify-content: start;
-  line-height: ${({ theme }) => theme.lineHeights.small};
-  /* stylelint-disable */
-  display: -ms-grid;
-  -ms-grid-columns: auto auto auto auto;
-  /* stylelint-enable */
-
-  ${Label} {
-    align-items: center;
+  label {
     color: ${({ theme, disabled }) => disabled && theme.colors.text1};
-    display: flex;
     font-size: ${({ theme }) => theme.fontSizes.small};
-    font-weight: normal;
-    grid-column: 2;
-    grid-row: 1;
-    overflow: hidden;
-    width: 100%;
-    /* stylelint-disable */
-    -ms-grid-column: 2;
-    -ms-grid-column-span: 1;
-    -ms-grid-row: 1;
-    /* stylelint-enable */
+    line-height: ${({ theme }) => theme.lineHeights.xsmall};
   }
 `

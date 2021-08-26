@@ -26,13 +26,35 @@
 
 import React from 'react'
 import { render } from 'react-dom'
-import { ComponentsProvider } from '@looker/components'
-import { PerformanceTest } from '@looker/components/src/Tooltip/Tooltip.story'
+import {
+  ComponentsProvider,
+  Box2,
+  FieldCheckboxGroup,
+  Truncate,
+} from '@looker/components'
 
+const longOption = {
+  label: `All legislative Powers herein granted shall be vested in a Congress of the
+  United States, which shall consist of a Senate and House of
+  Representatives.`,
+  value: 'long',
+}
+
+export const TruncatedCheckbox = () => (
+  <Box2 width={300}>
+    <FieldCheckboxGroup label="Cheeses" options={[longOption]} />
+  </Box2>
+)
 const App = () => {
   return (
     <ComponentsProvider>
-      <PerformanceTest />
+      <TruncatedCheckbox />
+      <Box2 width={100}>
+        <Truncate>
+          Blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+          blah blah blah blah blah blah blah
+        </Truncate>
+      </Box2>
     </ComponentsProvider>
   )
 }
