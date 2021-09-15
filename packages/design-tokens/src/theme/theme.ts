@@ -81,13 +81,14 @@ export interface Theme {
   defaults: {
     brandAnimation: boolean
     density: DensityRamp
+    floatingLabel: boolean
   }
 }
 
 export const theme: DefaultTheme = {
   breakpoints,
   colors,
-  defaults: { brandAnimation: false, density: 0 },
+  defaults: { brandAnimation: false, density: 0, floatingLabel: true },
   easings,
   elevations,
   fontSizes,

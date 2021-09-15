@@ -24,39 +24,29 @@
 
  */
 
-import type { FC } from 'react'
 import React from 'react'
 import styled from 'styled-components'
-import { useID } from '../../../utils'
-import { useFormContext } from '../../Form'
-import type { TextAreaProps } from '../../Inputs/TextArea'
-import { TextArea } from '../../Inputs/TextArea'
-import type { FieldProps } from '../Field'
-import { Field, omitFieldProps, pickFieldProps } from '../Field'
-import { getHasValue } from '../Field/useFloatingLabel'
+import { SpaceVertical } from '../../../Layout'
+import { Paragraph } from '../../../Text'
+import { ValidationMessage } from '../../ValidationMessage'
+import type { FieldBaseProps } from './types'
 
-export interface FieldTextAreaProps extends FieldProps, TextAreaProps {}
-
-const FieldTextAreaComponent: FC<FieldTextAreaProps> = ({ ...props }) => {
-  const id = useID(props.id)
-  const validationMessage = useFormContext(props)
-  return (
-    <Field
-      {...pickFieldProps(props)}
-      id={id}
-      validationMessage={validationMessage}
-      hasValue={getHasValue(props)}
-    >
-      <TextArea
-        {...omitFieldProps(props)}
-        id={id}
-        aria-describedby={`describedby-${id}`}
-        validationType={validationMessage && validationMessage.type}
-      />
-    </Field>
-  )
-}
-
-FieldTextAreaComponent.displayName = 'FieldTextAreaComponent'
-
-export const FieldTextArea = styled(FieldTextAreaComponent)``
+export const HelperText = styled(
+  ({ className, description, id, validationMessage }: FieldBaseProps) => {
+    return (
+      <SpaceVertical
+        pt="u2"
+        gap="u2"
+        className={className}
+        id={`describedby-${id}`}
+      >
+        {description && (
+          <Paragraph fontSize="xsmall" color="text2">
+            {description}
+          </Paragraph>
+        )}
+        {validationMessage && <ValidationMessage {...validationMessage} />}
+      </SpaceVertical>
+    )
+  }
+)``

@@ -33,6 +33,7 @@ import type { SelectProps } from '../../Inputs/Select/Select'
 import { Select } from '../../Inputs/Select/Select'
 import type { FieldProps } from '../Field'
 import { Field, omitFieldProps, pickFieldProps } from '../Field'
+import { getHasValue } from '../Field/useFloatingLabel'
 
 export interface FieldSelectProps extends FieldProps, SelectProps {}
 
@@ -46,6 +47,7 @@ const FieldSelectComponent = forwardRef(
         id={id}
         ariaLabelOnly
         validationMessage={validationMessage}
+        hasValue={getHasValue(props)}
       >
         <Select
           {...omitFieldProps(props)}

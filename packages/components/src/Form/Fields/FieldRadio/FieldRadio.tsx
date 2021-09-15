@@ -31,9 +31,8 @@ import { useID } from '../../../utils'
 import { useFormContext } from '../../Form'
 import type { RadioProps } from '../../Inputs/Radio/Radio'
 import { Radio } from '../../Inputs/Radio/Radio'
-import { omitFieldProps, pickFieldProps } from '../Field'
-import type { FieldBaseProps } from '../FieldBase'
-import { FieldInline } from '../FieldInline'
+import { FieldInline, omitFieldProps, pickFieldProps } from '../Field'
+import type { FieldBaseProps } from '../Field'
 
 export interface FieldRadioProps extends RadioProps, FieldBaseProps {}
 

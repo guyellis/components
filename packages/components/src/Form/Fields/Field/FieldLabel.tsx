@@ -23,13 +23,37 @@
  SOFTWARE.
 
  */
-import type { FocusEvent } from 'react'
 
-/**
- * ONLY use for blur events, returns the “next focused element” – event.relatedTarget if available
- * (modern browsers, where document.activeElement is not updated until after the blur event)
- * and document.activeElement as a fallback (IE11, where it’s updated before the blur event).
- * @param event the blur event
- */
-export const getNextFocusTarget = (event?: FocusEvent): Node | Element | null =>
-  (event?.relatedTarget as Node) || document.activeElement
+import React, { useContext } from 'react'
+import { FieldsetContext } from '../../Fieldset'
+import { VisuallyHidden } from '../../../VisuallyHidden'
+import { Label } from '../../Label'
+import { RequiredStar } from './RequiredStar'
+import type { FieldLabelProps } from './types'
+
+export const FieldLabel = ({
+  ariaLabelOnly,
+  hideLabel,
+  id,
+  label,
+  required,
+  ...props
+}: FieldLabelProps) => {
+  const { fieldsHideLabel } = useContext(FieldsetContext)
+  const shouldHideLabel = (fieldsHideLabel || hideLabel) && hideLabel !== false
+  const labelComponent = (
+    <Label
+      htmlFor={ariaLabelOnly ? undefined : id}
+      id={`labelledby-${id}`}
+      {...props}
+    >
+      {label}
+      {required && <RequiredStar />}
+    </Label>
+  )
+  return shouldHideLabel ? (
+    <VisuallyHidden>{labelComponent}</VisuallyHidden>
+  ) : (
+    labelComponent
+  )
+}

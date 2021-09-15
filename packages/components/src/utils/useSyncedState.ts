@@ -23,13 +23,25 @@
  SOFTWARE.
 
  */
-import type { FocusEvent } from 'react'
+
+import type { Dispatch, SetStateAction } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 /**
- * ONLY use for blur events, returns the “next focused element” – event.relatedTarget if available
- * (modern browsers, where document.activeElement is not updated until after the blur event)
- * and document.activeElement as a fallback (IE11, where it’s updated before the blur event).
- * @param event the blur event
+ * A version of useState that is synced with a prop
+ * @param prop The prop to sync state to
+ * @returns the current state value
  */
-export const getNextFocusTarget = (event?: FocusEvent): Node | Element | null =>
-  (event?.relatedTarget as Node) || document.activeElement
+export const useSyncedState = <S>(
+  prop: S
+): [S, Dispatch<SetStateAction<S>>] => {
+  const [state, setState] = useState(prop)
+  const isMountedRef = useRef(false)
+  useEffect(() => {
+    if (isMountedRef.current) {
+      setState(prop)
+    }
+    isMountedRef.current = true
+  }, [prop])
+  return [state, setState]
+}

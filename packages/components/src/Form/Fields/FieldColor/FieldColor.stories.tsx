@@ -24,39 +24,41 @@
 
  */
 
-import type { FC } from 'react'
 import React from 'react'
-import styled from 'styled-components'
-import { useID } from '../../../utils'
-import { useFormContext } from '../../Form'
-import type { TextAreaProps } from '../../Inputs/TextArea'
-import { TextArea } from '../../Inputs/TextArea'
-import type { FieldProps } from '../Field'
-import { Field, omitFieldProps, pickFieldProps } from '../Field'
-import { getHasValue } from '../Field/useFloatingLabel'
+import type { Story } from '@storybook/react/types-6-0'
+import { defaultArgTypes as argTypes } from '../../../../../../storybook/src/defaultArgTypes'
+import type { FieldColorProps } from './FieldColor'
+import { FieldColor } from './FieldColor'
 
-export interface FieldTextAreaProps extends FieldProps, TextAreaProps {}
+const Template: Story<FieldColorProps> = (args) => <FieldColor {...args} />
 
-const FieldTextAreaComponent: FC<FieldTextAreaProps> = ({ ...props }) => {
-  const id = useID(props.id)
-  const validationMessage = useFormContext(props)
-  return (
-    <Field
-      {...pickFieldProps(props)}
-      id={id}
-      validationMessage={validationMessage}
-      hasValue={getHasValue(props)}
-    >
-      <TextArea
-        {...omitFieldProps(props)}
-        id={id}
-        aria-describedby={`describedby-${id}`}
-        validationType={validationMessage && validationMessage.type}
-      />
-    </Field>
-  )
+export default {
+  argTypes,
+  component: FieldColor,
+  title: 'FieldColor',
 }
 
-FieldTextAreaComponent.displayName = 'FieldTextAreaComponent'
+export const Basic = Template.bind({})
+Basic.args = {
+  label: 'Basic',
+}
 
-export const FieldTextArea = styled(FieldTextAreaComponent)``
+export const ColorChosen = Template.bind({})
+ColorChosen.args = {
+  defaultValue: 'purple',
+  label: 'Color Chosen',
+}
+
+export const Disabled = Template.bind({})
+Disabled.args = {
+  ...ColorChosen.args,
+  disabled: true,
+  label: 'Disabled',
+}
+
+export const ReadOnly = Template.bind({})
+ReadOnly.args = {
+  ...ColorChosen.args,
+  label: 'Read Only',
+  readOnly: true,
+}

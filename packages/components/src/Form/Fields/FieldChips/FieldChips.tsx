@@ -45,6 +45,8 @@ const FieldChipsComponent = forwardRef(
       <Field
         id={id}
         validationMessage={validationMessage}
+        hasValue={props.values.length > 0}
+        checkValueOnBlur={false}
         {...pickFieldProps(props)}
       >
         <InputChips

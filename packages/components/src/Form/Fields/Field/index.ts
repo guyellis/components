@@ -24,37 +24,6 @@
 
  */
 
-import type { ReactNode } from 'react'
-import type { ValidationMessageProps } from '../ValidationMessage/ValidationMessage'
-
-export interface FieldBaseProps {
-  className?: string
-  /**
-   * Allows Field to adjust to the width of the input (InputText and Select)
-   */
-  autoResize?: boolean
-  disabled?: boolean
-  /**
-   * Defines the label for the field.
-   * I18n recommended: content that is user visible should be treated for i18n
-   */
-  label?: string
-  /**
-   * Whether or not the field should display a `*` denoting it is required.
-   */
-  required?: boolean
-  /**
-   * notes and details added to the top right corner of the field
-   * I18n recommended: content that is user visible should be treated for i18n
-   */
-  detail?: ReactNode
-  /**
-   * notes and more info added to the bottom of the field
-   * I18n recommended: content that is user visible should be treated for i18n
-   */
-  description?: ReactNode
-  /**
-   * Holds the type of validation (error, warning, etc.) and corresponding message.
-   */
-  validationMessage?: ValidationMessageProps
-}
+export * from './Field'
+export * from './FieldInline'
+export * from './types'

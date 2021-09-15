@@ -24,42 +24,18 @@
 
  */
 
-import type { WidthProps } from '@looker/design-tokens'
-import { width } from '@looker/design-tokens'
-import type { FunctionComponent } from 'react'
+import { shouldForwardProp, width } from '@looker/design-tokens'
 import React, { useContext } from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, ThemeContext } from 'styled-components'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-import { Paragraph, Text } from '../../Text'
-import { FieldsetContext } from '../Fieldset'
-import { inputHeight } from '../Inputs/height'
-import { Label } from '../Label'
-import { VisuallyHidden } from '../../VisuallyHidden'
-import { ValidationMessage } from '../ValidationMessage'
-import type { FieldBaseProps } from './FieldBase'
-import { RequiredStar } from './RequiredStar'
-
-export interface FieldProps extends FieldBaseProps, WidthProps {
-  /**
-   * Id of the input element to match a label to.
-   */
-  id?: string
-  /**
-   * Determines where to place the label in relation to the input.
-   * @default false
-   */
-  inline?: boolean
-  /**
-   * Hide label on Field
-   * @default false
-   */
-  hideLabel?: boolean
-  /**
-   *
-   */
-  ariaLabelOnly?: boolean
-}
+import { Span } from '../../../Text'
+import { inputHeight } from '../../Inputs/height'
+import { Label } from '../../Label'
+import { HelperText } from './HelperText'
+import { FieldLabel } from './FieldLabel'
+import { FloatingLabelField } from './FloatingLabelField'
+import type { FieldProps } from './types'
 
 export const fieldPropKeys = [
   'description',
@@ -90,59 +66,56 @@ export const omitFieldProps = (props: FieldProps) => omit(props, fieldPropKeys)
  * feedback about the status of the input values.
  */
 
-interface FieldPropsInternal extends FieldProps {
-  id: string
-}
+export const Field = styled(
+  ({ externalLabel, inline, ...props }: FieldProps) => {
+    const {
+      ariaLabelOnly,
+      autoResize,
+      className,
+      children,
+      description,
+      detail,
+      hideLabel,
+      id,
+      label,
+      required,
+      validationMessage,
+    } = props
 
-const FieldLayout: FunctionComponent<FieldPropsInternal> = ({
-  className,
-  children,
-  description,
-  detail,
-  id,
-  ariaLabelOnly,
-  label,
-  hideLabel,
-  required,
-  validationMessage,
-}) => {
-  const { fieldsHideLabel } = useContext(FieldsetContext)
+    const {
+      defaults: { floatingLabel },
+    } = useContext(ThemeContext)
 
-  const fieldDescription = description && (
-    <Paragraph mt="xsmall" fontSize="xsmall" color="text2">
-      {description}
-    </Paragraph>
-  )
+    if (floatingLabel && label && !inline && !externalLabel) {
+      return <FloatingLabelField {...props} />
+    }
 
-  const fieldValidation = validationMessage && (
-    <ValidationMessage {...validationMessage} />
-  )
+    return (
+      <FieldLayout
+        className={className}
+        inline={inline}
+        autoResize={autoResize}
+      >
+        <FieldLabel
+          ariaLabelOnly={ariaLabelOnly}
+          id={id}
+          label={label}
+          hideLabel={hideLabel}
+          required={required}
+        />
+        <InputArea>{children}</InputArea>
+        {detail && <FieldDetail>{detail}</FieldDetail>}
+        <HelperText
+          description={description}
+          id={id}
+          validationMessage={validationMessage}
+        />
+      </FieldLayout>
+    )
+  }
+)``
 
-  const labelComponent = (
-    <Label htmlFor={ariaLabelOnly ? undefined : id} id={`labelledby-${id}`}>
-      {label}
-      {required && <RequiredStar />}
-    </Label>
-  )
-
-  return (
-    <div className={className}>
-      {(fieldsHideLabel || hideLabel) && hideLabel !== false ? (
-        <VisuallyHidden>{labelComponent}</VisuallyHidden>
-      ) : (
-        labelComponent
-      )}
-      <InputArea>{children}</InputArea>
-      {detail && <FieldDetail>{detail}</FieldDetail>}
-      <MessageArea id={`describedby-${id}`}>
-        {fieldDescription}
-        {fieldValidation}
-      </MessageArea>
-    </div>
-  )
-}
-
-const FieldDetail = styled(Text).attrs(() => ({
+const FieldDetail = styled(Span).attrs(() => ({
   color: 'inherit',
   fontSize: 'xsmall',
   lineHeight: 'xsmall',
@@ -152,7 +125,6 @@ const InputArea = styled.div`
   /* Workaround for Chip's truncate styling breaking flexbox layout in FieldChips */
   min-width: 0;
 `
-const MessageArea = styled.div``
 
 const fieldLabelCSS = (inline?: boolean) =>
   inline
@@ -176,7 +148,14 @@ const templateAreas = css`
   grid-template-areas: 'label detail' 'input input' 'messages messages';
 `
 
-export const Field = styled(FieldLayout)<FieldPropsInternal>`
+type FieldLayoutProps = {
+  autoResize?: boolean
+  inline?: boolean
+}
+
+export const FieldLayout = styled.div.withConfig<FieldLayoutProps>({
+  shouldForwardProp,
+})`
   align-items: left;
 
   display: ${({ autoResize }) => (autoResize ? 'inline-grid' : 'grid')};
@@ -199,7 +178,7 @@ export const Field = styled(FieldLayout)<FieldPropsInternal>`
     grid-area: input;
   }
 
-  ${MessageArea} {
+  ${HelperText} {
     grid-area: messages;
   }
 
@@ -218,9 +197,5 @@ export const Field = styled(FieldLayout)<FieldPropsInternal>`
       css`
         align-self: center;
       `}
-  }
-
-  ${ValidationMessage} {
-    margin-top: ${({ theme }) => theme.space.u2};
   }
 `

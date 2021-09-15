@@ -47,6 +47,7 @@ const FieldSelectMultiComponent = forwardRef(
         id={id}
         ariaLabelOnly
         validationMessage={validationMessage}
+        externalLabel
       >
         <SelectMulti
           {...omitFieldProps(props)}

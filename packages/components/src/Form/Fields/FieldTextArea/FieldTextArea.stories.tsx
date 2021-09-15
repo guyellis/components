@@ -43,6 +43,9 @@ const Template: Story<FieldTextAreaProps> = (args) => (
 export const Basic = Template.bind({})
 Basic.args = { label: 'Text Area' }
 
+export const DefaultValue = Template.bind({})
+DefaultValue.args = { ...Basic.args, defaultValue: 'Default value' }
+
 export const Disabled = Template.bind({})
 Disabled.args = { ...Basic.args, disabled: true }
 

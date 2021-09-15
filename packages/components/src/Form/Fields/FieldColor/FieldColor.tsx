@@ -44,6 +44,7 @@ const FieldColorComponent = forwardRef(
       <Field
         id={id}
         validationMessage={validationMessage}
+        externalLabel
         {...pickFieldProps(props)}
       >
         <InputColor
