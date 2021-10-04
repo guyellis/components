@@ -28,7 +28,7 @@ import type { ChangeEvent, FormEvent, Ref } from 'react'
 import React, { useState, forwardRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { useID, useWrapEvent } from '../../../utils'
-import { usePopover, PopoverContent } from '../../../Popover'
+import { Popover, PopoverContent } from '../../../Popover'
 import type { InputTextProps } from '../InputText'
 import { InputText } from '../InputText'
 import { useFormContext } from '../../Form'
@@ -130,43 +130,43 @@ export const InputColorInternal = forwardRef(
       setColor(getColorFromText(event.currentTarget.value))
     }
 
-    const content = (
-      <PopoverContent p="u4">
-        <ColorPicker
-          hsv={color || { h: 0, s: 1, v: 1 }}
-          setHsv={setColorState}
-          width={DEFAULT_INPUT_COLOR_WIDTH}
-        />
-      </PopoverContent>
-    )
-
-    const { popover, domProps } = usePopover({ content })
-
-    return (
-      <div className={className}>
+    const swatch = (
+      <Popover
+        content={
+          <PopoverContent p="u4">
+            <ColorPicker
+              hsv={color || { h: 0, s: 1, v: 1 }}
+              setHsv={setColorState}
+              width={DEFAULT_INPUT_COLOR_WIDTH}
+            />
+          </PopoverContent>
+        }
+      >
         <Swatch
           color={color ? hsvToHex(color) : undefined}
           disabled={disabled}
           readOnly={readOnly}
-          {...domProps}
         />
-        {!disabled && !readOnly && popover}
-        {!hideInput && (
-          <InputText
-            {...props}
-            aria-describedby={`describedby-${id}`}
-            id={inputID}
-            ref={ref}
-            disabled={disabled}
-            readOnly={readOnly}
-            validationType={validationMessage && validationMessage.type}
-            onChange={handleInputTextChange}
-            value={inputTextValue}
-            onFocus={wrappedOnFocus}
-            onBlur={wrappedOnBlur}
-          />
-        )}
-      </div>
+      </Popover>
+    )
+
+    return hideInput ? (
+      swatch
+    ) : (
+      <InputText
+        before={swatch}
+        {...props}
+        aria-describedby={`describedby-${id}`}
+        id={inputID}
+        ref={ref}
+        disabled={disabled}
+        readOnly={readOnly}
+        validationType={validationMessage && validationMessage.type}
+        onChange={handleInputTextChange}
+        value={inputTextValue}
+        onFocus={wrappedOnFocus}
+        onBlur={wrappedOnBlur}
+      />
     )
   }
 )
