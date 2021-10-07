@@ -118,6 +118,7 @@ module.exports = {
     'import/order': 'error',
     indentation: 'off',
     'no-console': 'warn',
+    'no-nested-ternary': 'error',
     'no-redeclare': 'off', // prefer TS version of `no-redeclare` to support function overload syntax
     'no-restricted-imports': [
       'error',
