@@ -1,0 +1,10 @@
+{
+  "name": "@looker/visualization-playground",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "version": "1.0.0",
+  "description": "A demo and development environment for building Looker Visualization Components",
+  "publishConfig": {
+    "access": "public"
+  }
+}
